@@ -1,0 +1,223 @@
+{
+  "navBar": {
+    "home": "الرئيسية",
+    "categories": "التصنيفات",
+    "auction": "المزايدة"
+  },
+  "breadcrumb": {
+    "home": "الرئيسية",
+    "categories": "التصنيفات",
+    "auction": "المزايدة",
+    "products": "المنتجات",
+    "about": "من نحن",
+    "addAdvertise": "إضافة إعلان",
+    "addAuction": "إضافة مزاد",
+    "favorites": "المفضلات",
+    "myAdvertensies": "الإعلانات الخاصة",
+    "account": "حسابي",
+    "privacy&policies": "الخصوصية والسياسات",
+    "success": "تم إضافة الإعلان بنجاح",
+    "error": "حدث خطأ"
+  },
+  "NotFoundPage": {
+    "title": "عذراً، لم نجد هذه الصفحة!",
+    "message": "يبدو أن الصفحة التي تبحث عنها غير موجودة أو تم نقلها. لا تقلق، يمكنك العثور على ما تريده من خلال البحث أو تصفح منتجاتنا.",
+    "button": "العودة إلى الصفحة الرئيسية"
+  },
+  "loading": {
+    "title": "جاري التحميل..."
+  },
+  "userAvatar": {
+    "portfolio": "معلومات الحساب",
+    "advertise": "إعلاناتك",
+    "packages": "الباقات",
+    "changePassword": "تغيير كلمة المرور",
+    "language": "اللغة",
+    "privacy": "خصوصية وسياسة",
+    "support": "المساعدة والدعم",
+    "logOut": "تسجيل الخروج"
+  },
+  "Nav_Icons": {
+    "MyAdvertensies": "إعلاناتي",
+    "Packages": "الباقات",
+    "MyFavorites": "مفضلاتي",
+    "Language": "اللغة"
+  },
+  "Form": {
+    "UserNameLabel": "اسم الكامل أو اللقب",
+    "UserNamePlaceholder": "ادخل الأسم",
+    "EmailLabel": "البريد الإلكتروني",
+    "EmailPlaceholder": "mohamed123@gmail.com",
+    "PasswordLabel": "كلمة المرور",
+    "PasswordPlaceholder": "*********",
+    "BirthLabel": "تاريخ الميلاد",
+    "YearPlaceholder": "السنة",
+    "MonthPlaceholder": "الشهر",
+    "DayPlaceholder": "اليوم",
+    "GenderLabel": "الجنس",
+    "RadioMan": "ذكر",
+    "RadioWoman": "انثى",
+    "NationalityLabel": "الجنسية",
+    "NationalityPlaceholder": "اختر جنسيتك",
+    "HaveAccount": "لديك حساب؟",
+    "IsForgotPassword": "هل نسيت كلمة المرور؟",
+    "NoHaveAccount": "ليس لديك حساب؟",
+    "Or": "أو",
+    "Login": "تسجيل الدخول",
+    "Register": "إنشاء حساب",
+    "Loading": "جاري التحميل...",
+    "Send": "إرسال",
+    "PhoneLabel": "رقم الهاتف",
+    "PhonePlaceholder": "أدخل رقم الهاتف",
+    "LoginSuccess": "تم تسجيل الدخول بنجاح",
+    "RegisterSuccess": "تم إنشاء الحساب بنجاح",
+    "PasswordMinLength": "كلمة المرور يجب أن تحتوي على 6 أحرف على الأقل",
+    "PasswordNotMatch": "كلمتا المرور غير متطابقتين",
+    "NewPasswordLabel": "يرجى إدخال كلمة المرور الجديدة",
+    "NewPasswordPlaceholder": "أدخل كلمة المرور الجديدة",
+    "ConfirmPasswordLabel": "أعد إدخال كلمة المرور الجديدة",
+    "ConfirmPasswordPlaceholder": "أعد إدخال كلمة المرور الجديدة",
+    "PasswordChangedSuccess": "تم تغيير كلمة المرور بنجاح",
+    "Submit": "استمرار",
+    "BackToLogin": "العودة لتسجيل الدخول"
+  },
+  "Models": {
+    "Register": {
+      "BtnTitle": "تسجيل دخول",
+      "LoginModelTitle": "تسجيل الدخول",
+      "LoginModelDescription": "الرجاء إدخال اسم المستخدم / البريد الإلكتروني وكلمة المرور لتسجيل الدخول",
+      "RegisterModelTitle": "انشاء حساب",
+      "RegisterModelDescription": "أدخل معلوماتك الشخصية",
+      "ForgetModelTitle": "هل نسيت كلمة السر ؟",
+      "ForgetModelDescription": "الرجاء ادخال البريد الالكتروني"
+    },
+    "Banner": {
+      "BtnTitle": "إضافة إعلان",
+      "ModelTitle": "أضف إعلان أو مزاد بكل سهولة",
+      "ModelDescription": "أضف إعلان أو مزاد بكل سهولة أضف إعلان أو مزاد بكل سهولة"
+    }
+  },
+  "AddBOrACard": {
+    "Advertence": {
+      "Title": "إضافة إعلان",
+      "Description": "أضف إعلانك الجديد بسهولة وسرعة",
+      "Button": "إضافة الآن"
+    },
+    "Auction": {
+      "Title": "إضافة مزاد",
+      "Description": "أنشئ مزادك الخاص وابدأ المنافسة",
+      "Button": "إضافة الآن"
+    }
+  },
+  "AddAdvertise": {
+    "Title": "إضافة إعلان جديد",
+    "Description": "أضف تفاصيل منتجك لنشر إعلان مميز",
+    "Images": {
+      "Title": "صور المنتج",
+      "Description": "أضف صور واضحة وجذابة لمنتجك",
+      "MainImageTitle": "الصورة الرئيسية",
+      "OtherImagesTitle": "صور إضافية"
+    },
+    "Details": {
+      "Title": "تفاصيل المنتج",
+      "Description": "أدخل المعلومات الأساسية للمنتج",
+      "ProductLabel": "اسم المنتج",
+      "ProductPlaceholder": "أدخل اسم المنتج",
+      "CategoryLabel": "فئة المنتج",
+      "CategoryPlaceholder": "اختر فئة المنتج",
+      "SubCategoryLabel": "قسم المنتج",
+      "SubCategoryPlaceholder": "اختر قسم المنتج",
+      "StateLabel": "حالة المنتج",
+      "PriceLabel": "السعر (بالدينار)",
+      "DescriptionLabel": "عنوان ووصف المنتج",
+      "DescriptionPlaceholder": "اكتب وصفاً مفصلاً للمنتج...",
+      "OtherNots": "ملاحظات أخرى",
+      "OtherNotsPlaceholder": "أي تفاصيل إضافية تريد إضافتها..."
+    },
+    "Location&Contact": {
+      "Title": "الموقع والتواصل",
+      "Description": "حدد موقع المنتج وطرق التواصل المفضلة",
+      "LocationLabel": "الموقع",
+      "LocationPlaceholder": "اختر المدينة",
+      "ContactLabel": "طريقة التواصل"
+    },
+    "Submit": {
+      "Title": "تأكد من صحة جميع البيانات قبل النشر",
+      "Description": "بالنقر على حفظ ونشر الإعلان فإنك توافق على شروط الاستخدام وسياسة الخصوصية",
+      "Loading": "جاري التحميل...",
+      "SubmitButton": "حفظ ونشر الإعلان"
+    }
+  },
+  "AddAuction": {
+    "Title": "إضافة مزاد جديد",
+    "Description": "قم بإضافة تفاصيل المنتج والصور ومدة المزاد لإتمام نشر الإعلان.",
+    "Images": {
+      "Title": "صور المنتج",
+      "Description": "قم برفع الصورة الرئيسية وصور إضافية للمنتج.",
+      "MainImageTitle": "الصورة الرئيسية",
+      "OtherImagesTitle": "صور إضافية"
+    },
+    "Details": {
+      "Title": "تفاصيل المنتج",
+      "Description": "معلومات كاملة عن المنتج المعروض في المزاد.",
+      "ProductLabel": "اسم المنتج",
+      "ProductPlaceholder": "أدخل اسم المنتج",
+      "StateLabel": "حالة المنتج",
+      "CategoryLabel": "الفئة",
+      "CategoryPlaceholder": "اختر الفئة",
+      "PriceToLabel": "السعر الابتدائي",
+      "PriceToPlaceholder": "0.00",
+      "DurationLabel": "مدة المزاد",
+      "DurationPlaceholder": "اختر تاريخ الانتهاء",
+      "DescriptionLabel": "الوصف",
+      "DescriptionPlaceholder": "أدخل وصفاً كاملاً عن المنتج"
+    },
+    "Location&Contact": {
+      "Title": "الموقع ووسائل التواصل",
+      "Description": "حدد موقع المنتج وطرق التواصل المناسبة.",
+      "LocationLabel": "الموقع",
+      "LocationPlaceholder": "اختر الموقع",
+      "ContactLabel": "طرق التواصل"
+    },
+    "ProductState": {
+      "Title": "حالة المنتج",
+      "Price": "سيتم تحديد سعر المنتج بناءً على حالته"
+    },
+    "Submit": {
+      "Title": "قبل الإرسال تأكد من صحة البيانات",
+      "SubmitButton": "إضافة المزاد",
+      "Loading": "جارٍ الإرسال...",
+      "Description": "سيتم مراجعة بيانات المزاد قبل نشره."
+    },
+    "Success": "تم إضافة المزاد بنجاح",
+    "Error": "حدث خطأ أثناء إضافة المزاد"
+  },
+  "StateProductOptions": {
+    "New": "جديد",
+    "Used": "مستعمل"
+  },
+  "ContactOptions": {
+    "ContactMessage": "ارسال",
+    "ContactCall": "اتصال",
+    "whatsapp": "واتساب",
+    "sms": "رسالة",
+    "call": "اتصال"
+  },
+  "SearchBar": {
+    "SearchPlaceholder": "ابحث عن المنتجات..."
+  },
+  "ProductsFilters": {
+    "search": "ابحث عن منتج...",
+    "sort": "ترتيب حسب",
+    "latest": "الأحدث",
+    "oldest": "الأقدم",
+    "price_asc": "السعر: من الأعلى للأقل",
+    "price_desc": "السعر: من الأقل للأعلى",
+    "views": "الأعلى مشاهدة",
+    "condition": "حالة المنتج",
+    "new": "جديد",
+    "used": "مستعمل",
+    "min_price": "أقل سعر",
+    "max_price": "أعلى سعر"
+  }
+}

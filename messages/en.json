@@ -1,0 +1,223 @@
+{
+  "navBar": {
+    "home": "Home",
+    "categories": "Categories",
+    "auction": "Auction"
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "categories": "Categories",
+    "auction": "Auction",
+    "products": "Products",
+    "about": "About Us",
+    "addAdvertise": "add Advertensie",
+    "addAuction": "Add Auction",
+    "favorites": "Favorites",
+    "myAdvertensies": "My Advertensies",
+    "account": "My Account",
+    "privacy&policies": "privacy & policies",
+    "success": "Added successfully",
+    "error": "An error occurred"
+  },
+  "NotFoundPage": {
+    "title": "Sorry! Page Not Found",
+    "message": "It looks like the page you're looking for doesn't exist or has been moved. Don't worry, you can find what you need by searching or browsing our products.",
+    "button": "Back to Home"
+  },
+  "loading": {
+    "title": "Loading..."
+  },
+  "userAvatar": {
+    "portfolio": "Account information",
+    "advertise": "Advertises",
+    "packages": "Packages",
+    "changePassword": "Change Password",
+    "language": "Language",
+    "privacy": "Privacy Policy",
+    "support": "Support & Help",
+    "logOut": "Log Out"
+  },
+  "Nav_Icons": {
+    "MyAdvertensies": "My Advertensies",
+    "Packages": "Packages",
+    "MyFavorites": "My Favorites",
+    "Language": "Language"
+  },
+  "Form": {
+    "UserNameLabel": "Full Name or Nickname",
+    "UserNamePlaceholder": "Enter your name",
+    "EmailLabel": "Email Address",
+    "EmailPlaceholder": "mohamed123@gmail.com",
+    "PasswordLabel": "Password",
+    "PasswordPlaceholder": "*********",
+    "BirthLabel": "Date of Birth",
+    "YearPlaceholder": "Year",
+    "MonthPlaceholder": "Month",
+    "DayPlaceholder": "Day",
+    "GenderLabel": "Gender",
+    "RadioMan": "Male",
+    "RadioWoman": "Female",
+    "NationalityLabel": "Nationality",
+    "NationalityPlaceholder": "Select your nationality",
+    "HaveAccount": "Already have an account?",
+    "IsForgotPassword": "Forgot your password?",
+    "NoHaveAccount": "Don't have an account?",
+    "BackToLogin": "Back to Login",
+    "Or": "Or",
+    "Loading": "Loading...",
+    "Login": "Login",
+    "Register": "Create Account",
+    "Send": "Send",
+    "PhoneLabel": "Phone Number",
+    "PhonePlaceholder": "Enter phone number",
+    "LoginSuccess": "Logged in successfully",
+    "RegisterSuccess": "Account created successfully",
+    "PasswordMinLength": "Password must be at least 6 characters",
+    "PasswordNotMatch": "Passwords do not match",
+    "NewPasswordLabel": "Enter new password",
+    "NewPasswordPlaceholder": "Enter new password",
+    "ConfirmPasswordLabel": "Confirm new password",
+    "ConfirmPasswordPlaceholder": "Re-enter new password",
+    "PasswordChangedSuccess": "Password changed successfully",
+    "Submit": "Submit"
+  },
+  "Models": {
+    "Register": {
+      "BtnTitle": "Login",
+      "LoginModelTitle": "Login",
+      "LoginModelDescription": "Please enter your username/email and password to log in",
+      "RegisterModelTitle": "Create Account",
+      "RegisterModelDescription": "Enter your personal information",
+      "ForgetModelTitle": "Forgot Password?",
+      "ForgetModelDescription": "Please enter your email address"
+    },
+    "Banner": {
+      "BtnTitle": "Add Advertisement",
+      "ModelTitle": "Easily Add an Ad or Auction",
+      "ModelDescription": "Easily add an ad or auction with just a few steps"
+    }
+  },
+  "AddBOrACard": {
+    "Advertence": {
+      "Title": "Add Advertisement",
+      "Description": "Quickly and easily add your new advertisement",
+      "Button": "Add Now"
+    },
+    "Auction": {
+      "Title": "Add Auction",
+      "Description": "Create your own auction and start the competition",
+      "Button": "Add Now"
+    }
+  },
+  "AddAdvertise": {
+    "Title": "Add New Advertisement",
+    "Description": "Add your product details to publish a featured ad",
+    "Images": {
+      "Title": "Product Images",
+      "Description": "Add clear and attractive images of your product",
+      "MainImageTitle": "Main Image",
+      "OtherImagesTitle": "Additional Images"
+    },
+    "Details": {
+      "Title": "Product Details",
+      "Description": "Enter the basic information of the product",
+      "ProductLabel": "Product Name",
+      "ProductPlaceholder": "Enter the product name",
+      "CategoryLabel": "Product Category",
+      "CategoryPlaceholder": "Select the product category",
+      "SubCategoryLabel": "Product Sub Category",
+      "SubCategoryPlaceholder": "Select the product sub category",
+      "StateLabel": "Product Condition",
+      "PriceLabel": "Price (in Dinars)",
+      "DescriptionLabel": "Product Title and Description",
+      "DescriptionPlaceholder": "Write a detailed description of the product...",
+      "OtherNots": "Other Notes",
+      "OtherNotsPlaceholder": "Any additional details you want to add..."
+    },
+    "Location&Contact": {
+      "Title": "Location and Contact",
+      "Description": "Specify the product's location and preferred contact methods",
+      "LocationLabel": "Location",
+      "LocationPlaceholder": "Select city",
+      "ContactLabel": "Contact Method"
+    },
+    "Submit": {
+      "Title": "Make sure all data is correct before publishing",
+      "Description": "By clicking \"Save and Publish Ad\" you agree to the Terms of Use and Privacy Policy",
+      "Loading": "Loading...",
+      "SubmitButton": "Save and Publish Ad"
+    }
+  },
+  "AddAuction": {
+    "Title": "Add New Auction",
+    "Description": "Add product details, images, and auction duration to publish your listing.",
+    "Images": {
+      "Title": "Product Images",
+      "Description": "Upload the main product image and additional photos.",
+      "MainImageTitle": "Main Image",
+      "OtherImagesTitle": "Additional Images"
+    },
+    "Details": {
+      "Title": "Product Details",
+      "Description": "Full information about the product being auctioned.",
+      "ProductLabel": "Product Name",
+      "ProductPlaceholder": "Enter product name",
+      "StateLabel": "Product Condition",
+      "CategoryLabel": "Category",
+      "CategoryPlaceholder": "Choose category",
+      "PriceToLabel": "Starting Price",
+      "PriceToPlaceholder": "0.00",
+      "DurationLabel": "Auction Duration",
+      "DurationPlaceholder": "Select end date",
+      "DescriptionLabel": "Description",
+      "DescriptionPlaceholder": "Enter a full description of the product"
+    },
+    "Location&Contact": {
+      "Title": "Location & Contact",
+      "Description": "Select product location and preferred contact methods.",
+      "LocationLabel": "Location",
+      "LocationPlaceholder": "Choose location",
+      "ContactLabel": "Contact Methods"
+    },
+    "ProductState": {
+      "Title": "Product Condition",
+      "Price": "Price will be determined based on the condition"
+    },
+    "Submit": {
+      "Title": "Review your information before submitting",
+      "SubmitButton": "Submit Auction",
+      "Loading": "Submitting...",
+      "Description": "Your auction details will be reviewed before being published."
+    },
+    "Success": "Auction added successfully",
+    "Error": "An error occurred while adding the auction"
+  },
+  "StateProductOptions": {
+    "New": "New",
+    "Used": "Used"
+  },
+  "ContactOptions": {
+    "ContactMessage": "Message",
+    "ContactCall": "Call",
+    "whatsapp": "Whatsapp",
+    "sms": "SMS",
+    "call": "Call"
+  },
+  "SearchBar": {
+    "SearchPlaceholder": "Search for products..."
+  },
+  "ProductsFilters": {
+    "search": "Search for a product...",
+    "sort": "Sort by",
+    "latest": "Latest",
+    "oldest": "Oldest",
+    "price_asc": "Price: High to Low",
+    "price_desc": "Price: Low to High",
+    "views": "Most Viewed",
+    "condition": "Product Condition",
+    "new": "New",
+    "used": "Used",
+    "min_price": "Min Price",
+    "max_price": "Max Price"
+  }
+}
