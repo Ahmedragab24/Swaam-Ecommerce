@@ -5,264 +5,185 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import {
   Facebook,
-  Linkedin,
   Twitter,
   Mail,
   Phone,
   Instagram,
+  Music2,
 } from "lucide-react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { useSettingsQuery } from "@/store/services/Settings";
+import { getAuthTokenClient } from "@/lib/auth/auth-client";
+import { toast } from "sonner";
 
 const Footer = () => {
   const locale = useLocale();
+  const t = useTranslations("Footer");
+  const token = getAuthTokenClient();
 
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 10,
-      },
-    },
-  };
-
-  const linkHoverVariants = {
-    hover: {
-      color: `var(--primary)`,
-      x: 5,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 10,
-      },
-    },
-  };
-
-  // Sample data for better organization
-  const quickLinks = [
-    { name: "الرئيسية", path: "/" },
-    { name: "من نحن", path: "/about" },
-    { name: "الخدمات", path: "/services" },
-    { name: "اتصل بنا", path: "/contact" },
-  ];
-
-  const policies = [
-    { name: "سياسة الخصوصية", path: `/${locale}/privacy&policies` },
-    { name: "شروط الاستخدام", path: `/${locale}/privacy&policies` },
-    { name: "سياسة الإرجاع", path: `/${locale}/privacy&policies` },
-    { name: "الأسئلة الشائعة", path: `/${locale}/privacy&policies` },
-  ];
-
-  const socialLinks = [
-    { icon: Linkedin, href: "#", label: "LinkedIn", color: "#0077B5" },
-    { icon: Facebook, href: "#", label: "Facebook", color: "#1877F2" },
-    { icon: Twitter, href: "#", label: "Twitter", color: "#1DA1F2" },
-    { icon: Instagram, href: "#", label: "Instagram", color: "#E4405F" },
-  ];
+  const { data } = useSettingsQuery();
+  const Info = data?.data;
 
   return (
     <motion.footer
       className="bg-card backdrop-blur-xl pt-12 pb-6 rounded-t-3xl shadow-lg border-t border-muted/20"
-      initial="hidden"
-      whileInView="visible"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
       viewport={{ once: true, amount: 0.1 }}
-      variants={containerVariants}
     >
-      {/* Main Footer Content */}
       <div className="container mx-auto px-4">
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-y-10 gap-x-28 mb-12"
-          variants={containerVariants}
-        >
-          {/* Company Info */}
-          <motion.div
-            className="text-center space-y-6 lg:col-span-4"
-            variants={itemVariants}
+        {/* Grid Sections */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-y-10 md:gap-x-10 mb-10">
+          {/* Info Section */}
+          <div
+            className={`space-y-4 text-center ${
+              locale === "ar" ? "sm:text-right" : "sm:text-left"
+            }`}
           >
-            <div className="flex flex-col items-center lg:items-start">
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 300 }}
-                className="mb-4"
-              >
-                <Image
-                  src="/logoNoBg.png"
-                  alt="Hexa Logo"
-                  width={120}
-                  height={80}
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-contain"
-                />
-              </motion.div>
-              <p className="text-muted-foreground leading-relaxed max-w-[260px]">
-                منصة هيكسا الرائدة في مجال التجارة الإلكترونية للمنتجات والخدمات
-                المتعلقة بها في الشرق الأوسط
-              </p>
-            </div>
-          </motion.div>
+            <Image
+              src={"/logoNoBg.png"}
+              alt="Logo"
+              width={130}
+              height={60}
+              className="mx-auto sm:mx-0 object-cover"
+            />
+
+            <p className="text-muted-foreground leading-relaxed text-sm max-w-xs mx-auto sm:mx-0">
+              {Info?.info}
+            </p>
+          </div>
 
           {/* Quick Links */}
-          <motion.div
-            variants={itemVariants}
-            className="lg:col-span-2 text-center lg:text-right"
+          <div
+            className={`flex flex-col justify-center items-center ${
+              locale === "ar" ? "text-right" : "text-left"
+            } text-center sm:text-inherit`}
           >
-            <h3 className="font-bold text-xl mb-5 text-center lg:text-right relative inline-block">
-              <span className="relative z-10">روابط سريعة</span>
+            <h3 className="font-semibold text-sm md:text-xl mb-4">
+              {t("quickLinks")}
             </h3>
-            <ul className="space-y-3">
-              {quickLinks.map((link, index) => (
-                <motion.li
-                  key={link.name}
-                  variants={itemVariants}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.05 }}
-                  whileHover="hover"
-                >
-                  <motion.div variants={linkHoverVariants}>
+
+            <ul className="space-y-2 text-sm md:text-base">
+              {[
+                { name: t("home"), path: "/" },
+                { name: t("categories"), path: "/categories" },
+                { name: t("auctions"), path: "/auction" },
+                { name: t("packages"), path: "/packages" },
+              ].map((link) => (
+                <li key={link.name}>
+                  {!token && link.path === "/packages" ? (
+                    <div
+                      onClick={() => {
+                        toast.error(t("loginToAccessPackages"));
+                      }}
+                      className="text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+                    >
+                      {link.name}
+                    </div>
+                  ) : (
                     <Link
                       href={link.path}
-                      className="text-muted-foreground hover:text-primary transition-colors duration-200 text-sm"
+                      className="text-muted-foreground hover:text-primary transition-colors"
                     >
                       {link.name}
                     </Link>
-                  </motion.div>
-                </motion.li>
+                  )}
+                </li>
               ))}
             </ul>
-          </motion.div>
-
-          {/* Policies & Contact */}
-          <motion.div
-            variants={itemVariants}
-            className="lg:col-span-2 text-center lg:text-right"
-          >
-            <h3 className="font-bold text-xl mb-5 text-center lg:text-right relative inline-block">
-              <span className="relative z-10">السياسات والدعم</span>
-            </h3>
-            <ul className="space-y-3">
-              {policies.map((policy, index) => (
-                <motion.li
-                  key={policy.name}
-                  variants={itemVariants}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.05 }}
-                  whileHover="hover"
-                >
-                  <motion.div variants={linkHoverVariants}>
-                    <Link
-                      href={policy.path}
-                      className="text-muted-foreground hover:text-primary transition-colors duration-200 text-sm"
-                    >
-                      {policy.name}
-                    </Link>
-                  </motion.div>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
-
-          <motion.div
-            variants={itemVariants}
-            className="lg:col-span-2 text-center lg:text-right"
-          >
-            <h3 className="font-bold text-xl mb-5 text-center lg:text-right relative inline-block">
-              <span className="relative z-10">روابط سريعة</span>
-            </h3>
-
-            {/* Contact Info */}
-            <div className="space-y-3">
-              <div className="flex items-center justify-center lg:justify-start gap-3 text-sm">
-                <div className="bg-primary/10 p-2 rounded-full">
-                  <Mail className="w-4 h-4 text-primary" />
-                </div>
-                <span>info@hexa.com</span>
-              </div>
-              <div className="flex items-center justify-center lg:justify-start gap-3 text-sm">
-                <div className="bg-primary/10 p-2 rounded-full">
-                  <Phone className="w-4 h-4 text-primary" />
-                </div>
-                <span>+20 123 456 789</span>
-              </div>
-            </div>
-
-            {/* Social Media */}
-            <div className="flex justify-center lg:justify-start gap-4 mt-6">
-              {socialLinks.map(({ icon: Icon, href, label, color }) => (
-                <motion.div
-                  key={label}
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <Link
-                    href={href}
-                    target="_blank"
-                    className="bg-card hover:bg-secondary/50 p-2 rounded-full flex items-center justify-center shadow-sm border border-border"
-                    aria-label={label}
-                    style={{ color }}
-                  >
-                    <Icon className="w-5 h-5" />
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </motion.div>
-
-        {/* Copyright Section */}
-        <motion.div
-          className="pt-6 border-t border-primary"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-            transition: {
-              delay: 0.5,
-              duration: 0.5,
-            },
-          }}
-          viewport={{ once: true }}
-        >
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
-            <motion.p
-              className="text-sm text-muted-foreground"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8 }}
-            >
-              جميع الحقوق محفوظة لهيكسا © {new Date().getFullYear()}
-            </motion.p>
-            <motion.a
-              href="https://ahmed-elmadany.vercel.app/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8 }}
-            >
-              مطور الواجهة: Ahmed ElMadany
-            </motion.a>
           </div>
-        </motion.div>
+
+          {/* Policies */}
+          <div
+            className={`flex flex-col justify-center items-center ${
+              locale === "ar" ? "text-right" : "text-left"
+            } text-center sm:text-inherit`}
+          >
+            <h3 className="font-semibold text-sm md:text-xl mb-4">
+              {t("policies")}
+            </h3>
+
+            <ul className="space-y-2 text-sm md:text-base">
+              {[
+                { name: t("privacy"), path: `/${locale}/privacy&policies` },
+                { name: t("terms"), path: `/${locale}/privacy&policies` },
+                { name: t("faq"), path: `/${locale}/privacy&policies` },
+                { name: t("downloadApp"), path: `/${locale}/download-app` },
+              ].map((policy) => (
+                <li key={policy.name}>
+                  <Link
+                    href={policy.path}
+                    className="text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    {policy.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact + Social */}
+          <div
+            className={`flex flex-col justify-center items-center ${
+              locale === "ar" ? "text-right" : "text-left"
+            } text-center sm:text-inherit`}
+          >
+            <h3 className="font-semibold text-sm md:text-xl mb-4">
+              {t("social")}
+            </h3>
+
+            {/* Contact */}
+            <div className="space-y-2 text-sm md:text-base">
+              <a
+                href={`mailto:${Info?.email}`}
+                className="flex items-center justify-center sm:justify-start gap-2 text-muted-foreground hover:text-primary transition-colors"
+              >
+                <Mail className="w-4 h-4 text-primary" />
+                <span>{Info?.email}</span>
+              </a>
+
+              <a
+                href={`tel:${Info?.phone}`}
+                className="flex items-center justify-center sm:justify-start gap-2 text-sm md:text-base text-muted-foreground hover:text-primary transition-colors"
+              >
+                <Phone className="w-4 h-4 text-primary" />
+                <span>{Info?.phone}</span>
+              </a>
+            </div>
+
+            {/* Social Icons */}
+            <div className="flex justify-center sm:justify-start gap-4 mt-4">
+              {[
+                { icon: Music2, href: Info?.tiktok },
+                { icon: Facebook, href: Info?.facebook },
+                { icon: Twitter, href: Info?.twitter },
+                { icon: Instagram, href: Info?.instagram },
+              ].map(({ icon: Icon, href }, index) => (
+                <Link
+                  key={index}
+                  href={href || "#"}
+                  target="_blank"
+                  className="p-2 rounded-full border border-border bg-card hover:bg-secondary transition"
+                >
+                  <Icon className="w-5 h-5" />
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom */}
+        <div className="border-t border-primary pt-5 mt-5 flex flex-col md:flex-row justify-between items-center text-sm gap-3 text-muted-foreground text-center">
+          <p>{t("rights", { year: new Date().getFullYear() })}</p>
+
+          <a
+            href="https://ahmed-elmadany.vercel.app/"
+            target="_blank"
+            className="hover:text-primary transition"
+          >
+            {t("developer")}
+          </a>
+        </div>
       </div>
     </motion.footer>
   );

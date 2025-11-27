@@ -14,15 +14,19 @@ import { useLoginMutation } from "@/store/services/Auth/Auth";
 import { LoginType } from "@/types/Auth";
 import { toast } from "sonner";
 import { ErrorType } from "@/types";
-import { setAuthTokenClient } from "@/lib/auth/auth-client";
 import { TypeRegisterModel } from "./btnRegister";
 
 interface IProps {
   switchToLogin: (value: TypeRegisterModel) => void;
   switchToForgetPassword: () => void;
+  setPhone: (value: string) => void;
 }
 
-const LoginForm = ({ switchToLogin, switchToForgetPassword }: IProps) => {
+const LoginForm = ({
+  switchToLogin,
+  switchToForgetPassword,
+  setPhone,
+}: IProps) => {
   const t = useTranslations("Form");
   const [Login, { isLoading }] = useLoginMutation();
 
@@ -42,13 +46,10 @@ const LoginForm = ({ switchToLogin, switchToForgetPassword }: IProps) => {
       phone: values.phone.code + values.phone.number,
       password: values.password,
     };
-
     try {
-      const res = await Login(data).unwrap();
-
-      toast.success(t("LoginSuccess"));
-      setAuthTokenClient(res?.token || "");
-      setTimeout(() => window.location.reload(), 800);
+      await Login(data).unwrap();
+      setPhone(values.phone.code + values.phone.number);
+      switchToLogin("otp");
     } catch (error) {
       const err = error as ErrorType;
       toast.error(err?.data?.message);

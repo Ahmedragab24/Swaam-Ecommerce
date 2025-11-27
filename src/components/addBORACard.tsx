@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { PlusCircle, Megaphone, Gavel, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
+
 interface IProps {
   setOpen?: (open: boolean) => void;
 }
@@ -13,6 +14,7 @@ const AddBORACard = ({ setOpen }: IProps) => {
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("AddBOrACard");
+
 
   const handleClick = (path: string) => {
     setOpen?.(false);
@@ -37,6 +39,8 @@ const AddBORACard = ({ setOpen }: IProps) => {
     },
     hover: { rotate: 90, scale: 1.1, transition: { duration: 0.2 } },
   };
+
+
 
   return (
     <div className="flex flex-col sm:flex-row gap-6 justify-center items-center w-full max-w-3xl mx-auto py-4">

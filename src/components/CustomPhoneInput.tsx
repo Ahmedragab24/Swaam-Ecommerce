@@ -34,12 +34,15 @@ interface CustomPhoneInputProps {
   placeholder?: string;
 }
 
+import { useTranslations } from "next-intl";
+
 const CustomPhoneInput: React.FC<CustomPhoneInputProps> = ({
   field,
   label,
   className,
   placeholder,
 }) => {
+  const t = useTranslations("Form");
   const [selectedCountry, setSelectedCountry] = useState(arabCountries[0]);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isFocused, setIsFocused] = useState(false);
@@ -137,7 +140,7 @@ const CustomPhoneInput: React.FC<CustomPhoneInputProps> = ({
             >
               <div className="p-2">
                 <div className="mb-2 px-2 py-1 text-xs font-medium text-muted-foreground">
-                  اختر الدولة
+                  {t("SelectCountry")}
                 </div>
                 {arabCountries.map((country) => (
                   <DropdownMenuItem

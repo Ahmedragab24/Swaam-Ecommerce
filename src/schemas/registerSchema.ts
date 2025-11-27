@@ -5,8 +5,7 @@ export const RegisterFormSchema = z.object({
     code: z.string().min(1, { message: "اختار كود الدولة." }),
     number: z
       .string()
-      .min(9, { message: "رقم الجوال يجب أن يكون 9 أرقام على الأقل." })
-      .regex(/^[0-9]+$/, { message: "رقم الجوال غير صحيح." }),
+      .min(6, { message: "رقم الجوال يجب أن يكون 6 أرقام على الأقل." }),
   }),
   password: z
     .string()

@@ -5,6 +5,7 @@ import CardSubCategory from "@/components/cardSubCategory";
 import SkeletonCategories from "@/components/skeletonCategories";
 import { useGetSubCategoriesQuery } from "@/store/services/Home";
 import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import React from "react";
 
 const SubCategoriesPage = () => {
@@ -12,11 +13,12 @@ const SubCategoriesPage = () => {
   const CategoryID = categoryId ? +categoryId : 0;
   const { data } = useGetSubCategoriesQuery(CategoryID);
   const SubCategories = data?.data?.subcategories || [];
+  const t = useTranslations("navBar");
 
   return (
     <div className="Container my-20">
       <h1 className="Title_Section py-10 text-right">
-        <BreadcrumbDemo />
+        <BreadcrumbDemo dynamicName={t("subCategories")} />
       </h1>
 
       {SubCategories ? (

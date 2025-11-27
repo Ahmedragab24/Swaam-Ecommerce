@@ -9,7 +9,7 @@ export interface RegisterType {
   type?: MembershipType;
   country_id?: number;
   fcm?: string;
-  device_id?: "device_id";
+  device_id?: string;
 }
 export interface SocialRegisterType {
   name?: string;
@@ -17,7 +17,7 @@ export interface SocialRegisterType {
   email?: string;
   login_type: "google" | "apple" | "facebook" | "normal";
   fcm?: string;
-  device_id?: "device_id";
+  device_id?: string;
 }
 
 export interface LoginType {

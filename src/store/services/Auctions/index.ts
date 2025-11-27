@@ -1,11 +1,17 @@
 import { getAuthTokenClient } from "@/lib/auth/auth-client";
+import { UserInfoType } from "@/types/Auth/Profile";
 import { ProductType } from "@/types/Products";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 interface AuctionsResponse {
   data: {
     product: ProductType;
-    bids: [];
+    bids: {
+      id: number;
+      amount: number;
+      user: UserInfoType;
+      created_at: string;
+    }[];
     highest_bid: string;
     auction_ended: boolean;
   };

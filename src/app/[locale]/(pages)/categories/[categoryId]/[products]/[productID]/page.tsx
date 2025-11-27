@@ -12,6 +12,8 @@ import ShareButton from "@/components/ShareBtn";
 import ProductsSection from "@/components/productsSection";
 import { LangType } from "@/types";
 import { getLocale, getTranslations } from "next-intl/server";
+import BtnFavorite from "@/components/btnFavorite";
+import SpacialProductBtn from "@/components/SpacialProductBtn";
 
 interface ProductDetailsProps {
   params: Promise<{ productID: string }>;
@@ -25,8 +27,7 @@ export default async function ProductDetailsPage({
 }: ProductDetailsProps) {
   const lang = (await getLocale()) as LangType;
 
-  // تم تغيير المسار ليطابق ملف JSON المرفق (AddAuction.Details يحتوي على معظم المفاتيح المطلوبة)
-  const t = await getTranslations("AddAuction.Details");
+  const t = await getTranslations("ProductDetails");
 
   const { productID } = await params;
   const Product_ID = productID ? Number(productID) : 0;
@@ -46,24 +47,26 @@ export default async function ProductDetailsPage({
   const Product: ProductType = data.data.product;
   const Similar = data.data.similar_products || [];
 
-  // تحديد لغة التاريخ بناءً على لغة الموقع
   const dateLocale = lang === "en" ? enUS : ar;
 
   return (
     <div className="Container pt-28">
-      <div className="flex justify-between gap-4 mb-6">
+      <div className="flex flex-col md:flex-row justify-between gap-4 mb-6">
         <div className="flex items-center gap-2">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 leading-tight">
+          <h1 className="text-lg md:text-3xl font-bold text-gray-900 leading-tight">
             {Product.name}
           </h1>
           <span className="text-base text-gray-500">
-            {/* استخدام مفتاح Category من ملف الترجمة */}
-            {t("Category")} /{" "}
+            / {""}
             {lang === "en" ? Product.category?.name_en : Product.category?.name}
           </span>{" "}
         </div>
-        <div className="flex items-center gap-2 self-end md:self-auto">
+        <div className="flex items-center gap-2 md:self-auto">
           <ShareButton />
+
+          <BtnFavorite product={Product} />
+
+          <SpacialProductBtn product={Product} />
         </div>
       </div>
 
@@ -83,7 +86,6 @@ export default async function ProductDetailsPage({
             <div className="bg-white p-6 md:p-8">
               <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
                 <Tag className="w-5 h-5 text-primary" />
-                {/* تم استخدام DescriptionLabel لأنه الموجود في ملف JSON بدلاً من Title */}
                 {t("DescriptionLabel")}
               </h3>
               <p className="text-gray-600 leading-loose whitespace-pre-line text-base md:text-lg">
@@ -111,9 +113,7 @@ export default async function ProductDetailsPage({
                     </span>
                     <div className="flex items-baseline gap-2">
                       <span className="text-3xl md:text-4xl font-extrabold text-primary">
-                        {Product.display_price}{" "}
-                        {/* ترجمة العملة يدوياً أو يمكن إضافتها لملف الترجمة */}
-                        {lang === "en" ? "KWD" : "د.ك"}
+                        {Product.display_price} {lang === "en" ? "KWD" : "د.ك"}
                       </span>
                     </div>
                   </div>
@@ -137,7 +137,6 @@ export default async function ProductDetailsPage({
                         {t("Condition")}
                       </span>
                       <span className="font-medium text-base">
-                        {/* الترجمة بناءً على القيمة القادمة من الباك إند */}
                         {Product.condition === "new" ? t("New") : t("Used")}
                       </span>
                     </div>
@@ -162,7 +161,6 @@ export default async function ProductDetailsPage({
                     <div className="flex flex-col">
                       <span className="text-sm text-gray-400">{t("City")}</span>
                       <span className="font-medium text-base">
-                        {/* التعامل مع اسم المدينة حسب اللغة إذا توفر */}
                         {lang === "en" && Product.city?.name_en
                           ? Product.city.name_en
                           : Product.city?.name}
@@ -180,7 +178,7 @@ export default async function ProductDetailsPage({
                       <span className="font-medium text-base">
                         {formatDistanceToNow(new Date(Product.created_at), {
                           addSuffix: true,
-                          locale: dateLocale, // استخدام اللغة الديناميكية
+                          locale: dateLocale,
                         })}
                       </span>
                     </div>
@@ -188,7 +186,9 @@ export default async function ProductDetailsPage({
                 </div>
 
                 <div className="space-y-3">
-                  {Product.is_auction && <BtnAuctionDetails />}
+                  {Product.is_auction && (
+                    <BtnAuctionDetails product={Product} />
+                  )}
                 </div>
               </CardContent>
             </Card>

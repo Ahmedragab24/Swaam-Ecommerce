@@ -2,6 +2,12 @@
 
 export const arabCountries = [
   {
+    code: "+965",
+    country: "الكويت",
+    flagUrl: "https://flagcdn.com/w40/kw.png",
+    nameEn: "Kuwait",
+  },
+  {
     code: "+966",
     country: "السعودية",
     flagUrl: "https://flagcdn.com/w40/sa.png",
@@ -13,12 +19,7 @@ export const arabCountries = [
     flagUrl: "https://flagcdn.com/w40/ae.png",
     nameEn: "UAE",
   },
-  {
-    code: "+965",
-    country: "الكويت",
-    flagUrl: "https://flagcdn.com/w40/kw.png",
-    nameEn: "Kuwait",
-  },
+
   {
     code: "+974",
     country: "قطر",

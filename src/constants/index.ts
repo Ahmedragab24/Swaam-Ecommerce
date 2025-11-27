@@ -1,5 +1,5 @@
 import { optionsType, ProductType } from "@/types";
-import { Globe, Heart, ImageDown, Package } from "lucide-react";
+import { BellRing, Globe, Heart, ImageDown, Package } from "lucide-react";
 
 export const Nav_Link = [
   {
@@ -17,12 +17,18 @@ export const Nav_Link = [
     path: "/auction",
     icon: "info-circle",
   },
+  {
+    name: "ads",
+    path: "/ads",
+    icon: "Megaphone",
+  },
 ];
 
 export const Nav_Icons = [
   { name: "MyAdvertensies", Icon: ImageDown, path: "/myAdvertensies" },
   { name: "Packages", Icon: Package, path: "/packages" },
   { name: "MyFavorites", Icon: Heart, path: "/favorites" },
+  { name: "Notification", Icon: BellRing, path: "/notifications" },
   {
     name: "Language",
     Icon: Globe,
@@ -579,11 +585,6 @@ export const UserMenu = [
     path: "/packages",
   },
   {
-    name: "changePassword",
-    icon: "/Icons/change.svg",
-    path: "/account",
-  },
-  {
     name: "language",
     icon: "/Icons/language.svg",
     languages: [
@@ -595,6 +596,11 @@ export const UserMenu = [
     name: "privacy",
     icon: "/Icons/privacy.svg",
     path: "/privacy&policies",
+  },
+  {
+    name: "downloadApp",
+    icon: "/Icons/download.svg",
+    path: "/download-app",
   },
   {
     name: "support",

@@ -16,6 +16,7 @@ import { Suspense } from "react";
 import { ProductType } from "@/types/Products";
 import { LangType } from "@/types";
 import Image from "next/image";
+import { useLocale, useTranslations } from "next-intl";
 
 interface IProps {
   seeMore?: string;
@@ -78,10 +79,14 @@ export default function ProductsSection({
                 className="object-contain w-25 h-25 md:w-40 md:h-40"
               />
               <h2 className="text-xl font-bold text-gray-600">
-                لا توجد منتجات حالياً
+                {lang === "ar"
+                  ? "لا توجد منتجات حالياً"
+                  : "No products available yet"}
               </h2>
               <p className="text-gray-400 text-center max-w-sm">
-                تابعنا للحصول على أحدث المنتجات قريباً.
+                {lang === "ar"
+                  ? "تابعنا للحصول على أحدث المنتجات قريباً."
+                  : "Follow us for the latest products soon."}
               </p>
             </div>
           )}

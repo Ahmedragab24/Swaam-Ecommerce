@@ -2,22 +2,29 @@
   "navBar": {
     "home": "الرئيسية",
     "categories": "التصنيفات",
-    "auction": "المزايدة"
+    "subCategories": "الأقسام الفرعية",
+    "auction": "المزايدة",
+    "ads": "الإعلانات"
   },
   "breadcrumb": {
     "home": "الرئيسية",
     "categories": "التصنيفات",
     "auction": "المزايدة",
+    "ads": "الإعلانات",
     "products": "المنتجات",
+    "packages": "الباقات",
     "about": "من نحن",
     "addAdvertise": "إضافة إعلان",
     "addAuction": "إضافة مزاد",
     "favorites": "المفضلات",
     "myAdvertensies": "الإعلانات الخاصة",
     "account": "حسابي",
-    "privacy&policies": "الخصوصية والسياسات",
+    "privacy&policies": "سياسة الخصوصية",
     "success": "تم إضافة الإعلان بنجاح",
-    "error": "حدث خطأ"
+    "error": "حدث خطأ",
+    "download-app": "تحميل التطبيق",
+    "product": "المنتج",
+    "all-products": "المنتجات"
   },
   "NotFoundPage": {
     "title": "عذراً، لم نجد هذه الصفحة!",
@@ -33,15 +40,20 @@
     "packages": "الباقات",
     "changePassword": "تغيير كلمة المرور",
     "language": "اللغة",
-    "privacy": "خصوصية وسياسة",
+    "privacy": "سياسة الخصوصية",
+    "downloadApp": "تحميل التطبيق",
     "support": "المساعدة والدعم",
-    "logOut": "تسجيل الخروج"
+    "logOut": "تسجيل الخروج",
+    "LogoutSuccessfully": "تم تسجيل الخروج بنجاح",
+    "LogoutFailed": "فشل تسجيل الخروج"
   },
   "Nav_Icons": {
     "MyAdvertensies": "إعلاناتي",
     "Packages": "الباقات",
     "MyFavorites": "مفضلاتي",
-    "Language": "اللغة"
+    "Language": "اللغة",
+    "Notification": "الإشعارات",
+    "loginRequired": "يجب عليك تسجيل الدخول أولاً"
   },
   "Form": {
     "UserNameLabel": "اسم الكامل أو اللقب",
@@ -79,17 +91,161 @@
     "ConfirmPasswordPlaceholder": "أعد إدخال كلمة المرور الجديدة",
     "PasswordChangedSuccess": "تم تغيير كلمة المرور بنجاح",
     "Submit": "استمرار",
-    "BackToLogin": "العودة لتسجيل الدخول"
+    "BackToLogin": "العودة لتسجيل الدخول",
+    "UpdateSuccess": "تم تحديث البيانات بنجاح",
+    "UpdateError": "حدث خطأ",
+    "UpdateBtn": "تعديل البيانات",
+    "ProfilePicture": "صورة الملف الشخصي",
+    "SelectCountry": "اختر الدولة",
+    "ChangePasswordTitle": "تغيير كلمة المرور",
+    "ChangePasswordDescription": "يجب أن تكون كلمة المرور الجديدة فريدة من نوعها عن تلك التي استخدمتها سابقًا",
+    "CurrentPasswordLabel": "كلمة المرور الحالية",
+    "ChangePasswordBtn": "تغيير كلمة المرور",
+    "Otp": {
+      "Title": "إرسال رمز التحقق",
+      "Description": "يرجى إدخال الرمز المُرسل إلى رقم هاتفك لتأكيد هويتك على الرقم",
+      "CodeRequired": "الرمز مطلوب",
+      "VerifySuccess": "تم التحقق وتسجيل دخولك بنجاح",
+      "ResendError": "فشل في إرسال الرمز",
+      "UnexpectedError": "حدث خطأ غير متوقع",
+      "ResendBtn": "إعادة الإرسال مرة أخرى",
+      "NoCode": "لم تتلقَ رمز التأكيد؟ إعادة الإرسال بعد",
+      "ResendSuccess": "تم إعادة إرسال الرمز بنجاح"
+    }
+  },
+  "UserPackages": {
+    "Title": "باقاتي",
+    "Subscribed": "مشترك",
+    "NotSubscribed": "غير مشترك",
+    "Active": "الباقة نشطة",
+    "NeedsActivation": "يحتاج إلى تفعيل",
+    "UsageStats": "إحصائيات الاستخدام",
+    "ProductsUsed": "المنتجات المستخدمة",
+    "Remaining": "متبقي",
+    "AuctionsUsed": "المزادات المستخدمة",
+    "PackageDetails": "تفاصيل الباقة",
+    "Name": "الاسم",
+    "NoPackage": "لا يوجد باقة",
+    "Description": "الوصف",
+    "NoDescription": "لا يوجد وصف",
+    "MaxProducts": "أقصى منتجات",
+    "MaxAuctions": "أقصى مزادات",
+    "Price": "السعر",
+    "Currency": "دينار"
+  },
+  "SupportForm": {
+    "Title": "الدعم الفني",
+    "Description": "نحن هنا لمساعدتك — برجاء اختيار نوع المشكلة وكتابة التفاصيل.",
+    "ProblemTypeLabel": "ما نوع المشكلة التي تواجهها؟",
+    "LoginIssue": "عدم تسجيل الدخول",
+    "AdditionError": "خطأ في الإضافة",
+    "AuctionDisplayIssue": "مشكلة في عرض المزادات",
+    "TechnicalIssue": "مشكلة تقنية أو برمجية",
+    "MessageDetailsLabel": "تفاصيل الرسالة",
+    "MessagePlaceholder": "وضح مشكلتك بالتفصيل...",
+    "Send": "إرسال",
+    "Success": "تم الإرسال بنجاح",
+    "Error": "حدث خطأ أثناء الإرسال"
+  },
+  "PrivacyPolicy": {
+    "Title": "سياسة الخصوصية والحقوق",
+    "Intro": "نحن نولي خصوصيتك أهمية قصوى. تهدف هذه السياسة إلى توضيح كيفية جمع، استخدام، ومشاركة المعلومات التي يتم جمعها عبر التطبيق.",
+    "TableOfContents": "المحتويات",
+    "Sections": {
+      "InfoCollection": {
+        "Title": "المعلومات التي نقوم بجمعها",
+        "Intro": "نقوم بجمع المعلومات التالية لتحسين خدماتنا:",
+        "Subsections": {
+          "Personal": {
+            "Title": "المعلومات الشخصية",
+            "Items": {
+              "Phone": "رقم الهاتف",
+              "Email": "البريد الإلكتروني",
+              "Address": "العنوان (عند الحاجة)",
+              "ProfilePic": "صورة الملف الشخصي (اختياري)"
+            }
+          },
+          "Usage": {
+            "Title": "معلومات الاستخدام",
+            "Items": {
+              "Bids": "العروض التي تقوم بها على المزادات",
+              "Followed": "المنتجات التي تتابعها أو تبحث عنها",
+              "Activity": "سجل الدخول والنشاط داخل التطبيق"
+            }
+          },
+          "Device": {
+            "Title": "معلومات الجهاز",
+            "Items": {
+              "Type": "نوع الجهاز ونظام التشغيل",
+              "IP": "عنوان الـ IP",
+              "Location": "موقعك الجغرافي (بإذن منك)"
+            }
+          }
+        }
+      },
+      "InfoUsage": {
+        "Title": "كيفية استخدام المعلومات",
+        "Intro": "نستخدم المعلومات التي نجمعها للأغراض التالية:",
+        "Items": {
+          "Manage": "إدارة حسابك وتوفير الدعم الفني",
+          "Improve": "تحسين تجربة المستخدم داخل التطبيق",
+          "Notify": "إرسال إشعارات حول المزادات أو المنتجات المهتم بها",
+          "Detect": "الكشف عن أي أنشطة مخالفة أو احتيالية"
+        }
+      },
+      "InfoSharing": {
+        "Title": "مشاركة المعلومات",
+        "Intro": "لن نشارك معلوماتك الشخصية مع أطراف ثالثة دون موافقتك، باستثناء الحالات التالية:",
+        "Items": {
+          "Legal": "الامتثال للقوانين أو الاستجابة لأوامر قضائية",
+          "Fraud": "الحماية من الاحتيال أو منع الأنشطة غير القانونية",
+          "Logistics": "التعامل مع شركات شحن أو دفع لتسهيل عمليات البيع والشراء"
+        }
+      },
+      "Cookies": {
+        "Title": "ملفات تعريف الارتباط (Cookies)",
+        "Intro": "قد نستخدم ملفات تعريف الارتباط لجمع بيانات حول نشاطك داخل التطبيق، بهدف تحسين خدماتنا وتقديم مزايا مخصصة لك."
+      },
+      "UserRights": {
+        "Title": "حقوق المستخدم",
+        "Intro": "لديك الحق في:",
+        "Items": {
+          "Access": "الوصول إلى بياناتك الشخصية وتعديلها",
+          "Delete": "حذف حسابك في أي وقت",
+          "OptOut": "رفض تلقي الإشعارات التسويقية"
+        },
+        "Note": "لطلب أي من الحقوق أعلاه، يرجى التواصل معنا عبر البريد الإلكتروني المذكور أدناه."
+      },
+      "PolicyUpdates": {
+        "Title": "تحديثات السياسة",
+        "Intro": "قد نقوم بتحديث سياسة الخصوصية من وقت لآخر.",
+        "Items": {
+          "Notify": "سيتم إشعار المستخدمين بالتغييرات عبر التطبيق أو البريد الإلكتروني",
+          "Consent": "استمرارك في استخدام التطبيق يعني موافقتك على السياسة المحدّثة"
+        }
+      },
+      "Contact": {
+        "Title": "التواصل معنا",
+        "Intro": "للاستفسارات أو الملاحظات المتعلقة بالخصوصية، يرجى التواصل عبر:",
+        "EmailLabel": "البريد الإلكتروني",
+        "PhoneLabel": "الهاتف"
+      }
+    },
+    "Footer": {
+      "Title": "خصوصيتك مهمة بالنسبة لنا",
+      "Description": "إذا كان لديك أي استفسارات حول سياسة الخصوصية، لا تتردد في التواصل معنا",
+      "Button": "تواصل معنا"
+    }
   },
   "Models": {
     "Register": {
       "BtnTitle": "تسجيل دخول",
       "LoginModelTitle": "تسجيل الدخول",
-      "LoginModelDescription": "الرجاء إدخال اسم المستخدم / البريد الإلكتروني وكلمة المرور لتسجيل الدخول",
+      "LoginModelDescription": "الرجاء إدخال رقم الجوال وكلمة المرور لتسجيل الدخول",
       "RegisterModelTitle": "انشاء حساب",
       "RegisterModelDescription": "أدخل معلوماتك الشخصية",
       "ForgetModelTitle": "هل نسيت كلمة السر ؟",
-      "ForgetModelDescription": "الرجاء ادخال البريد الالكتروني"
+      "ForgetModelDescription": "الرجاء ادخال رقم الجوال"
     },
     "Banner": {
       "BtnTitle": "إضافة إعلان",
@@ -132,7 +288,11 @@
       "DescriptionLabel": "عنوان ووصف المنتج",
       "DescriptionPlaceholder": "اكتب وصفاً مفصلاً للمنتج...",
       "OtherNots": "ملاحظات أخرى",
-      "OtherNotsPlaceholder": "أي تفاصيل إضافية تريد إضافتها..."
+      "OtherNotsPlaceholder": "أي تفاصيل إضافية تريد إضافتها...",
+      "SelectCategoryFirst": "يجب اختيار قسم اولا",
+      "SelectSubCategoryFirst": "يجب اختيار قسم اولا",
+      "SelectDate": "اختر تاريخ المزاد",
+      "SelectDatePlaceholder": "اختر تاريخ المزاد"
     },
     "Location&Contact": {
       "Title": "الموقع والتواصل",
@@ -170,7 +330,9 @@
       "DurationLabel": "مدة المزاد",
       "DurationPlaceholder": "اختر تاريخ الانتهاء",
       "DescriptionLabel": "الوصف",
-      "DescriptionPlaceholder": "أدخل وصفاً كاملاً عن المنتج"
+      "DescriptionPlaceholder": "أدخل وصفاً كاملاً عن المنتج",
+      "SelectDate": "اختر تاريخ المزاد",
+      "SelectDatePlaceholder": "اختر تاريخ المزاد"
     },
     "Location&Contact": {
       "Title": "الموقع ووسائل التواصل",
@@ -208,6 +370,9 @@
   },
   "ProductsFilters": {
     "search": "ابحث عن منتج...",
+    "category": "الفئة",
+    "sub_category": "القسم الفرعي",
+    "all": "الكل",
     "sort": "ترتيب حسب",
     "latest": "الأحدث",
     "oldest": "الأقدم",
@@ -219,5 +384,95 @@
     "used": "مستعمل",
     "min_price": "أقل سعر",
     "max_price": "أعلى سعر"
+  },
+  "Footer": {
+    "quickLinks": "روابط سريعة",
+    "policies": "السياسات والدعم",
+    "home": "الرئيسية",
+    "about": "من نحن",
+    "services": "الخدمات",
+    "contact": "اتصل بنا",
+    "categories": "التصنيفات",
+    "auctions": "المزادات",
+    "packages": "الباقات",
+    "privacy": "سياسة الخصوصية",
+    "terms": "شروط الاستخدام",
+    "returnPolicy": "سياسة الإرجاع",
+    "faq": "الأسئلة الشائعة",
+    "rights": "جميع الحقوق محفوظة لسوام © {year}",
+    "developer": "مطور الواجهة: Ahmed ElMadany",
+    "social": "روابط التواصل الاجتماعي",
+    "downloadApp": "تحميل التطبيق",
+    "loginToAccessPackages": "يجب عليك تسجيل الدخول أولاً"
+  },
+  "Notifications": {
+    "title": "الإشعارات",
+    "deleteAll": "حذف جميع الإشعارات",
+    "deleteAllSuccess": "تم حذف جميع الإشعارات",
+    "deleteAllError": "حدث خطأ أثناء حذف الإشعارات",
+    "deleteSuccess": "تم حذف الإشعار",
+    "deleteError": "حدث خطأ أثناء حذف الإشعار",
+    "delete": "حذف",
+    "markReadError": "خطأ أثناء تعليم الإشعارات كمقروءة:"
+  },
+  "Ads": {
+    "title": "عرض اعلانات",
+    "error_loading_ads": "حدث خطأ أثناء تحميل الإعلانات"
+  },
+  "Packages": {
+    "title": "الباقات",
+    "error_loading_packages": "حدث خطأ أثناء تحميل الباقات"
+  },
+  "HomePage": {
+    "latestProducts": "آخر الإعلانات",
+    "latestAuctions": "آخر المزادات",
+    "seeMore": "مشاهدة الكل"
+  },
+  "NavbarMobile": {
+    "openMenu": "فتح القائمة",
+    "menu": "القائمة",
+    "browsing": "التصفح",
+    "quickActions": "الإجراءات السريعة",
+    "account": "الحساب",
+    "rights": "جميع الحقوق محفوظة لسوام"
+  },
+  "Metadata": {
+    "title": "سوام",
+    "description": "سوام للتجارة الإلكترونية",
+    "keywords": "كلمة مفتاحية 1, كلمة مفتاحية 2, اسم المنتج, الخ...",
+    "ogDescription": "وصف موجز يظهر عند المشاركة على فيسبوك أو LinkedIn"
+  },
+  "ProductDetails": {
+    "ProductNotFound": "المنتج غير موجود",
+    "DescriptionLabel": "الوصف",
+    "Notes": "ملاحظات",
+    "CurrentPrice": "السعر الحالي",
+    "Auction": "مزاد",
+    "Condition": "الحالة",
+    "New": "جديد",
+    "Used": "مستعمل",
+    "Views": "المشاهدات",
+    "City": "المدينة",
+    "PublishedAt": "نشر منذ",
+    "TrustedSeller": "بائع موثوق",
+    "SeeMore": "مشاهدة المزيد",
+    "SimilarProducts": "منتجات مشابهة",
+    "ShareTitle": "شاهد هذا المنتج:",
+    "ShareSuccess": "تم المشاركة بنجاح ✅",
+    "CopySuccess": "تم نسخ الرابط إلى الحافظة ✅",
+    "ShareError": "فشل في المشاركة",
+    "CopyError": "فشل في النسخ",
+    "AuctionBtnTitle": "مزايدة",
+    "AuctionModelTitle": "المزايدة على المنتج",
+    "ChatPlaceholder": "ادخل قيمة المزايدة",
+    "ChatSender": "أنت",
+    "AddToFavorites": "إضافة للمفضلة",
+    "RemoveFromFavorites": "حذف من المفضلة",
+    "AddedToFavorites": "تم الإضافة للمفضلة",
+    "RemovedFromFavorites": "تم الحذف من المفضلة",
+    "FeatureProduct": "تمييز",
+    "BidValidationError": "من فضلك أدخل قيمة صحيحة",
+    "BidSuccess": "تم تقديم العرض بنجاح",
+    "BidError": "حدث خطأ أثناء تقديم العرض"
   }
 }

@@ -31,6 +31,8 @@ const BtnRegister = () => {
           ? "!max-w-[400px]"
           : variant === "register"
           ? "!max-w-[520px]"
+          : variant === "otp"
+          ? "!max-w-[400px] p-8"
           : "!max-w-[320px] p-8"
       }
       BtnTitle={t("Register.BtnTitle")}
@@ -41,18 +43,31 @@ const BtnRegister = () => {
           ? t("Register.LoginModelTitle")
           : variant === "register"
           ? t("Register.RegisterModelTitle")
-          : t("Register.ForgetModelTitle")
+          : variant === "forgetPassword"
+          ? t("Register.ForgetModelTitle")
+          : variant === "otp"
+          ? ""
+          : variant === "restPassword"
+          ? ""
+          : ""
       }
       ModelDescription={
         variant === "login"
           ? t("Register.LoginModelDescription")
           : variant === "register"
           ? t("Register.RegisterModelDescription")
-          : t("Register.ForgetModelDescription")
+          : variant === "forgetPassword"
+          ? t("Register.ForgetModelDescription")
+          : variant === "otp"
+          ? ""
+          : variant === "restPassword"
+          ? ""
+          : ""
       }
     >
       {variant === "login" && (
         <LoginForm
+          setPhone={setPhone}
           switchToLogin={setVariant}
           switchToForgetPassword={() => setVariant("forgetPassword")}
         />

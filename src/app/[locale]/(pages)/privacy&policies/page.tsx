@@ -20,43 +20,50 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { BreadcrumbDemo } from "@/components/breadcrumb";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { useSettingsQuery } from "@/store/services/Settings";
+import Link from "next/link";
 
 const PrivacyAndPoliciesPage = () => {
   const [activeSection, setActiveSection] = useState<string>("info-collection");
   const locale = useLocale();
+  const t = useTranslations("PrivacyPolicy");
+  const { data } = useSettingsQuery();
+  const Data = data?.data;
 
   const sections = [
     {
       id: "info-collection",
-      title: "المعلومات التي نقوم بجمعها",
+      title: t("Sections.InfoCollection.Title"),
       icon: Database,
       content: {
-        intro: "نقوم بجمع المعلومات التالية لتحسين خدماتنا:",
+        intro: t("Sections.InfoCollection.Intro"),
         subsections: [
           {
-            title: "المعلومات الشخصية",
+            title: t("Sections.InfoCollection.Subsections.Personal.Title"),
             items: [
-              "رقم الهاتف",
-              "البريد الإلكتروني",
-              "العنوان (عند الحاجة)",
-              "صورة الملف الشخصي (اختياري)",
+              t("Sections.InfoCollection.Subsections.Personal.Items.Phone"),
+              t("Sections.InfoCollection.Subsections.Personal.Items.Email"),
+              t("Sections.InfoCollection.Subsections.Personal.Items.Address"),
+              t(
+                "Sections.InfoCollection.Subsections.Personal.Items.ProfilePic"
+              ),
             ],
           },
           {
-            title: "معلومات الاستخدام",
+            title: t("Sections.InfoCollection.Subsections.Usage.Title"),
             items: [
-              "العروض التي تقوم بها على المزادات",
-              "المنتجات التي تتابعها أو تبحث عنها",
-              "سجل الدخول والنشاط داخل التطبيق",
+              t("Sections.InfoCollection.Subsections.Usage.Items.Bids"),
+              t("Sections.InfoCollection.Subsections.Usage.Items.Followed"),
+              t("Sections.InfoCollection.Subsections.Usage.Items.Activity"),
             ],
           },
           {
-            title: "معلومات الجهاز",
+            title: t("Sections.InfoCollection.Subsections.Device.Title"),
             items: [
-              "نوع الجهاز ونظام التشغيل",
-              "عنوان الـ IP",
-              "موقعك الجغرافي (بإذن منك)",
+              t("Sections.InfoCollection.Subsections.Device.Items.Type"),
+              t("Sections.InfoCollection.Subsections.Device.Items.IP"),
+              t("Sections.InfoCollection.Subsections.Device.Items.Location"),
             ],
           },
         ],
@@ -64,85 +71,83 @@ const PrivacyAndPoliciesPage = () => {
     },
     {
       id: "info-usage",
-      title: "كيفية استخدام المعلومات",
+      title: t("Sections.InfoUsage.Title"),
       icon: Eye,
       content: {
-        intro: "نستخدم المعلومات التي نجمعها للأغراض التالية:",
+        intro: t("Sections.InfoUsage.Intro"),
         items: [
-          "إدارة حسابك وتوفير الدعم الفني",
-          "تحسين تجربة المستخدم داخل التطبيق",
-          "إرسال إشعارات حول المزادات أو المنتجات المهتم بها",
-          "الكشف عن أي أنشطة مخالفة أو احتيالية",
+          t("Sections.InfoUsage.Items.Manage"),
+          t("Sections.InfoUsage.Items.Improve"),
+          t("Sections.InfoUsage.Items.Notify"),
+          t("Sections.InfoUsage.Items.Detect"),
         ],
       },
     },
     {
       id: "info-sharing",
-      title: "مشاركة المعلومات",
+      title: t("Sections.InfoSharing.Title"),
       icon: Share2,
       content: {
-        intro:
-          "لن نشارك معلوماتك الشخصية مع أطراف ثالثة دون موافقتك، باستثناء الحالات التالية:",
+        intro: t("Sections.InfoSharing.Intro"),
         items: [
-          "الامتثال للقوانين أو الاستجابة لأوامر قضائية",
-          "الحماية من الاحتيال أو منع الأنشطة غير القانونية",
-          "التعامل مع شركات شحن أو دفع لتسهيل عمليات البيع والشراء",
+          t("Sections.InfoSharing.Items.Legal"),
+          t("Sections.InfoSharing.Items.Fraud"),
+          t("Sections.InfoSharing.Items.Logistics"),
         ],
       },
     },
     {
       id: "cookies",
-      title: "ملفات تعريف الارتباط (Cookies)",
+      title: t("Sections.Cookies.Title"),
       icon: Cookie,
       content: {
-        intro:
-          "قد نستخدم ملفات تعريف الارتباط لجمع بيانات حول نشاطك داخل التطبيق، بهدف تحسين خدماتنا وتقديم مزايا مخصصة لك.",
+        intro: t("Sections.Cookies.Intro"),
       },
     },
     {
       id: "user-rights",
-      title: "حقوق المستخدم",
+      title: t("Sections.UserRights.Title"),
       icon: UserCheck,
       content: {
-        intro: "لديك الحق في:",
+        intro: t("Sections.UserRights.Intro"),
         items: [
-          "الوصول إلى بياناتك الشخصية وتعديلها",
-          "حذف حسابك في أي وقت",
-          "رفض تلقي الإشعارات التسويقية",
+          t("Sections.UserRights.Items.Access"),
+          t("Sections.UserRights.Items.Delete"),
+          t("Sections.UserRights.Items.OptOut"),
         ],
-        note: "لطلب أي من الحقوق أعلاه، يرجى التواصل معنا عبر البريد الإلكتروني المذكور أدناه.",
+        note: t("Sections.UserRights.Note"),
       },
     },
     {
       id: "policy-updates",
-      title: "تحديثات السياسة",
+      title: t("Sections.PolicyUpdates.Title"),
       icon: RefreshCw,
       content: {
-        intro: "قد نقوم بتحديث سياسة الخصوصية من وقت لآخر.",
+        intro: t("Sections.PolicyUpdates.Intro"),
         items: [
-          "سيتم إشعار المستخدمين بالتغييرات عبر التطبيق أو البريد الإلكتروني",
-          "استمرارك في استخدام التطبيق يعني موافقتك على السياسة المحدّثة",
+          t("Sections.PolicyUpdates.Items.Notify"),
+          t("Sections.PolicyUpdates.Items.Consent"),
         ],
       },
     },
     {
       id: "contact",
-      title: "التواصل معنا",
+      title: t("Sections.Contact.Title"),
       icon: Mail,
       content: {
-        intro: "للاستفسارات أو الملاحظات المتعلقة بالخصوصية، يرجى التواصل عبر:",
+        intro: t("Sections.Contact.Intro"),
         contacts: [
           {
             type: "email",
             icon: Mail,
-            label: "البريد الإلكتروني",
-            value: "privacy@example.com",
+            label: t("Sections.Contact.EmailLabel"),
+            value: Data?.email,
           },
           {
             type: "phone",
             icon: Phone,
-            label: "الهاتف",
-            value: "+971 XX XXX XXXX",
+            label: t("Sections.Contact.PhoneLabel"),
+            value: Data?.phone,
           },
         ],
       },
@@ -169,7 +174,7 @@ const PrivacyAndPoliciesPage = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FileText className="w-5 h-5" />
-                المحتويات
+                {t("TableOfContents")}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -214,11 +219,10 @@ const PrivacyAndPoliciesPage = () => {
               </div>
             </div>
             <h1 className="text-xl md:text-3xl font-bold mb-1 text-gray-900">
-              سياسة الخصوصية والحقوق
+              {t("Title")}
             </h1>
             <p className="text-md text-gray-600 md:text-lg mb-8 leading-relaxed max-w-3xl mx-auto">
-              نحن نولي خصوصيتك أهمية قصوى. تهدف هذه السياسة إلى توضيح كيفية جمع،
-              استخدام، ومشاركة المعلومات التي يتم جمعها عبر التطبيق.
+              {t("Intro")}
             </p>
           </div>
           {sections.map((section, index) => {
@@ -242,7 +246,7 @@ const PrivacyAndPoliciesPage = () => {
                 <CardContent className="p-6">
                   <div className="prose prose-lg max-w-none">
                     <p className="text-gray-700 leading-relaxed mb-4">
-                      # {section.content.intro}
+                      {section.content.intro}
                     </p>
 
                     {/* Render subsections for info-collection */}
@@ -295,17 +299,19 @@ const PrivacyAndPoliciesPage = () => {
                               key={idx}
                               className="bg-primary/10 border border-primary/20 rounded-lg p-4 hover:bg-primary/15 transition-colors"
                             >
-                              <div className="flex items-center gap-3">
-                                <div className="p-2 bg-primary/20 rounded-lg">
-                                  <ContactIcon className="w-5 h-5 text-primary" />
-                                </div>
-                                <div className="flex-1">
-                                  <p className="font-semibold text-gray-800">
-                                    {contact.label}
-                                  </p>
-                                  <p className="text-primary font-medium">
-                                    {contact.value}
-                                  </p>
+                              <div>
+                                <div className="flex items-center gap-3">
+                                  <div className="p-2 bg-primary/20 rounded-lg">
+                                    <ContactIcon className="w-5 h-5 text-primary" />
+                                  </div>
+                                  <div className="flex-1">
+                                    <p className="font-semibold text-gray-800">
+                                      {contact.label}
+                                    </p>
+                                    <p className="text-primary font-medium">
+                                      {contact.value}
+                                    </p>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -332,12 +338,9 @@ const PrivacyAndPoliciesPage = () => {
           <Card className="bg-gradient-to-r from-sky-400 to-sky-300 text-white">
             <CardContent className="p-8 text-center">
               <Lock className="w-12 h-12 mx-auto mb-4 opacity-80" />
-              <h3 className="text-2xl font-bold mb-4">
-                خصوصيتك مهمة بالنسبة لنا
-              </h3>
+              <h3 className="text-2xl font-bold mb-4">{t("Footer.Title")}</h3>
               <p className="text-blue-100 mb-6 leading-relaxed">
-                إذا كان لديك أي استفسارات حول سياسة الخصوصية، لا تتردد في
-                التواصل معنا
+                {t("Footer.Description")}
               </p>
               <Button
                 variant="secondary"
@@ -345,7 +348,7 @@ const PrivacyAndPoliciesPage = () => {
                 onClick={() => scrollToSection("contact")}
                 className="font-semibold"
               >
-                تواصل معنا
+                {t("Footer.Button")}
                 <Mail className="w-4 h-4 mr-2" />
               </Button>
             </CardContent>

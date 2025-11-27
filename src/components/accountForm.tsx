@@ -1,37 +1,71 @@
 "use client";
 
-import { useState } from "react";
 import { Edit3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CustomFormField from "./CustomFormItem";
-import { Form, FormField, FormLabel } from "./ui/form";
+import { Form, FormField } from "./ui/form";
 import LoaderSpin from "./loader";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import CustomNationalityField from "./customNationalityField";
 import { UpdateAccountFormSchema } from "@/schemas/updateAccount";
 import EditableAvatar from "./updateImageAccount";
+import {
+  useGetUserInfoQuery,
+  useUpdateProfileMutation,
+} from "@/store/services/Auth/Profile";
+import { toast } from "sonner";
+import CustomPhoneInput from "./CustomPhoneInput";
+import { arabCountries } from "@/constants/phoneCode";
+
+const getPhoneData = (phone: string | undefined) => {
+  if (!phone) return { code: arabCountries[0].code, number: "" };
+  const country = arabCountries.find((c) => phone.startsWith(c.code));
+  if (country) {
+    return {
+      code: country.code,
+      number: phone.replace(country.code, ""),
+    };
+  }
+  return { code: arabCountries[0].code, number: phone };
+};
+
+import { useTranslations } from "next-intl";
 
 const AccountForm = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [UpdateAccount, { isLoading }] = useUpdateProfileMutation();
+  const t = useTranslations("Form");
+
+  const { data } = useGetUserInfoQuery();
+  const userInfo = data?.data.user;
 
   const form = useForm<z.infer<typeof UpdateAccountFormSchema>>({
     resolver: zodResolver(UpdateAccountFormSchema),
     defaultValues: {
       photo: "",
-      username: "",
-      email: "",
-      nationality: "",
-      birthYear: "",
-      birthMonth: "",
-      birthDay: "",
+      username: userInfo?.name ?? "",
+      phone: getPhoneData(userInfo?.phone),
     },
   });
 
-  function onSubmit(values: z.infer<typeof UpdateAccountFormSchema>) {
-    console.log(values);
-    setIsLoading(true);
+  async function onSubmit(values: z.infer<typeof UpdateAccountFormSchema>) {
+    const data = new FormData();
+    data.append("image", values?.photo || "");
+    data.append("name", values?.username || "");
+
+    const fullPhone =
+      values.phone?.code && values.phone?.number
+        ? values.phone.code + values.phone.number
+        : "";
+    data.append("phone", fullPhone);
+
+    try {
+      await UpdateAccount(data).unwrap();
+      toast.success(t("UpdateSuccess"));
+    } catch (error) {
+      console.log(error);
+      toast.error(t("UpdateError"));
+    }
   }
 
   return (
@@ -41,10 +75,15 @@ const AccountForm = () => {
           {/* Header */}
           <div className="text-center mb-8">
             {/* Profile Picture */}
-            <EditableAvatar control={form.control} />
+            <EditableAvatar
+              control={form.control}
+              initialImage={userInfo?.image}
+            />
 
             {/* Name under picture */}
-            <p className="text-2xl text-gray-700 font-medium">محمد عبدلله</p>
+            <p className="text-2xl text-gray-700 font-medium">
+              {userInfo?.name}
+            </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-4 items-center">
@@ -55,24 +94,8 @@ const AccountForm = () => {
                 <CustomFormField
                   type="text"
                   field={field}
-                  label="اسم الكامل"
-                  placeholder="محمد عبدالله"
-                  icon={<Edit3 className="w-4 h-4" />}
-                  className="h-11"
-                />
-              )}
-            />
-
-
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <CustomFormField
-                  type="email"
-                  field={field}
-                  label="البريد الإلكتروني"
-                  placeholder="mohamed342@gmail.com"
+                  label={t("UserNameLabel")}
+                  placeholder={t("UserNamePlaceholder")}
                   icon={<Edit3 className="w-4 h-4" />}
                   className="h-11"
                 />
@@ -81,60 +104,20 @@ const AccountForm = () => {
 
             <FormField
               control={form.control}
-              name="nationality"
+              name="phone"
               render={({ field }) => (
-                <CustomNationalityField
-                  control={form.control}
-                  className="!h-11"
+                <CustomPhoneInput
+                  field={{
+                    value: field.value,
+                    onChange: field.onChange,
+                    onBlur: field.onBlur,
+                    name: field.name,
+                  }}
+                  label={t("PhoneLabel")}
+                  placeholder={t("PhonePlaceholder")}
                 />
               )}
             />
-
-            <div>
-              <FormLabel className="rtl:text-right block w-full text-gray-700">
-                تاريخ الميلاد
-              </FormLabel>
-              <div className="flex gap-2 justify-between">
-                <FormField
-                  control={form.control}
-                  name="birthYear"
-                  render={({ field }) => (
-                    <CustomFormField
-                      className="flex-1 h-11"
-                      field={field}
-                      placeholder="السنة"
-                      type="number"
-                    />
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="birthMonth"
-                  render={({ field }) => (
-                    <CustomFormField
-                      className="flex-1 h-11"
-                      field={field}
-                      placeholder="الشهر"
-                      type="number"
-                    />
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="birthDay"
-                  render={({ field }) => (
-                    <CustomFormField
-                      className="flex-1 h-11"
-                      field={field}
-                      placeholder="اليوم"
-                      type="number"
-                    />
-                  )}
-                />
-              </div>
-            </div>
           </div>
 
           <Button
@@ -143,7 +126,7 @@ const AccountForm = () => {
             className="w-full"
             disabled={isLoading}
           >
-            {isLoading ? <LoaderSpin type="Btn" size="sm" /> : "تعديل البيانات"}
+            {isLoading ? <LoaderSpin type="Btn" size="sm" /> : t("UpdateBtn")}
           </Button>
         </form>
       </Form>

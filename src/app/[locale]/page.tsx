@@ -5,6 +5,8 @@ import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 import { getHome } from "@/lib/Api/Home";
 
+import { getTranslations } from "next-intl/server";
+
 type IProps = {
   params: Promise<{ locale: string }>;
 };
@@ -17,23 +19,24 @@ export default async function Home({ params }: IProps) {
   const data = await getHome();
   const LatestProducts = data?.data?.latest_products || [];
   const LatestAuctions = data?.data?.latest_auctions || [];
+  const t = await getTranslations("HomePage");
 
   return (
-    <main className="min-h-screen w-full mt-20 overflow-hidden">
+    <main className="min-h-screen w-full mt-10 md:mt-20 overflow-hidden">
       <div className="Container">
         <HeroSection />
         {/* <AuctionSection /> */}
         <ProductsSection
           lang={locale}
-          seeMore={locale === "en" ? "See more" : "مشاهدة الكل"}
-          seeMorePath="/"
-          titleSection={locale === "en" ? "Latest products" : "أحدث المنتجات"}
+          seeMore={t("seeMore")}
+          seeMorePath="/all-products"
+          titleSection={t("latestProducts")}
           products={LatestProducts}
         />
         <ProductsSection
-          seeMore="مشاهدة الكل"
-          seeMorePath="/"
-          titleSection="اخر المزادات"
+          seeMore={t("seeMore")}
+          seeMorePath="/auction"
+          titleSection={t("latestAuctions")}
           products={LatestAuctions}
           lang={locale}
         />

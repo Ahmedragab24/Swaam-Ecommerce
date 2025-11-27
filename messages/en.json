@@ -2,22 +2,29 @@
   "navBar": {
     "home": "Home",
     "categories": "Categories",
-    "auction": "Auction"
+    "subCategories": "Sub Categories",
+    "auction": "Auction",
+    "ads": "Ads"
   },
   "breadcrumb": {
     "home": "Home",
     "categories": "Categories",
     "auction": "Auction",
+    "ads": "Ads",
     "products": "Products",
     "about": "About Us",
     "addAdvertise": "add Advertensie",
     "addAuction": "Add Auction",
     "favorites": "Favorites",
+    "packages": "Packages",
     "myAdvertensies": "My Advertensies",
     "account": "My Account",
     "privacy&policies": "privacy & policies",
     "success": "Added successfully",
-    "error": "An error occurred"
+    "error": "An error occurred",
+    "download-app": "Download App",
+    "product": "Product",
+    "all-products": "All Products"
   },
   "NotFoundPage": {
     "title": "Sorry! Page Not Found",
@@ -34,14 +41,19 @@
     "changePassword": "Change Password",
     "language": "Language",
     "privacy": "Privacy Policy",
+    "downloadApp": "Download App",
     "support": "Support & Help",
-    "logOut": "Log Out"
+    "logOut": "Log Out",
+    "LogoutSuccessfully": "Logout successfully",
+    "LogoutFailed": "Logout failed"
   },
   "Nav_Icons": {
     "MyAdvertensies": "My Advertensies",
     "Packages": "Packages",
     "MyFavorites": "My Favorites",
-    "Language": "Language"
+    "Notification": "Notification",
+    "Language": "Language",
+    "loginRequired": "You must login first"
   },
   "Form": {
     "UserNameLabel": "Full Name or Nickname",
@@ -79,17 +91,161 @@
     "ConfirmPasswordLabel": "Confirm new password",
     "ConfirmPasswordPlaceholder": "Re-enter new password",
     "PasswordChangedSuccess": "Password changed successfully",
-    "Submit": "Submit"
+    "Submit": "Submit",
+    "UpdateSuccess": "Data updated successfully",
+    "UpdateError": "An error occurred",
+    "UpdateBtn": "Update Data",
+    "ProfilePicture": "Profile Picture",
+    "SelectCountry": "Select Country",
+    "ChangePasswordTitle": "Change Password",
+    "ChangePasswordDescription": "New password must be unique from those previously used.",
+    "CurrentPasswordLabel": "Current Password",
+    "ChangePasswordBtn": "Change Password",
+    "Otp": {
+      "Title": "Send Verification Code",
+      "Description": "Please enter the code sent to your phone number to confirm your identity on the number",
+      "CodeRequired": "Code is required",
+      "VerifySuccess": "Verified and logged in successfully",
+      "ResendError": "Failed to send code",
+      "UnexpectedError": "Unexpected error",
+      "ResendBtn": "Resend again",
+      "NoCode": "Didn't receive the confirmation code? Resend after",
+      "ResendSuccess": "Code sent successfully"
+    }
+  },
+  "UserPackages": {
+    "Title": "My Packages",
+    "Subscribed": "Subscribed",
+    "NotSubscribed": "Not Subscribed",
+    "Active": "Package Active",
+    "NeedsActivation": "Needs Activation",
+    "UsageStats": "Usage Statistics",
+    "ProductsUsed": "Products Used",
+    "Remaining": "Remaining",
+    "AuctionsUsed": "Auctions Used",
+    "PackageDetails": "Package Details",
+    "Name": "Name",
+    "NoPackage": "No Package",
+    "Description": "Description",
+    "NoDescription": "No Description",
+    "MaxProducts": "Max Products",
+    "MaxAuctions": "Max Auctions",
+    "Price": "Price",
+    "Currency": "Dinar"
+  },
+  "SupportForm": {
+    "Title": "Technical Support",
+    "Description": "We are here to help you — please choose the type of problem and write the details.",
+    "ProblemTypeLabel": "What type of problem are you facing?",
+    "LoginIssue": "Login Issue",
+    "AdditionError": "Addition Error",
+    "AuctionDisplayIssue": "Auction Display Issue",
+    "TechnicalIssue": "Technical or Software Issue",
+    "MessageDetailsLabel": "Message Details",
+    "MessagePlaceholder": "Explain your problem in detail...",
+    "Send": "Send",
+    "Success": "Sent Successfully",
+    "Error": "Error Sending"
+  },
+  "PrivacyPolicy": {
+    "Title": "Privacy Policy & Rights",
+    "Intro": "We value your privacy highly. This policy aims to explain how we collect, use, and share information collected via the app.",
+    "TableOfContents": "Table of Contents",
+    "Sections": {
+      "InfoCollection": {
+        "Title": "Information We Collect",
+        "Intro": "We collect the following information to improve our services:",
+        "Subsections": {
+          "Personal": {
+            "Title": "Personal Information",
+            "Items": {
+              "Phone": "Phone Number",
+              "Email": "Email",
+              "Address": "Address (when needed)",
+              "ProfilePic": "Profile Picture (optional)"
+            }
+          },
+          "Usage": {
+            "Title": "Usage Information",
+            "Items": {
+              "Bids": "Bids you place on auctions",
+              "Followed": "Products you follow or search for",
+              "Activity": "Login history and in-app activity"
+            }
+          },
+          "Device": {
+            "Title": "Device Information",
+            "Items": {
+              "Type": "Device type and operating system",
+              "IP": "IP Address",
+              "Location": "Your geographic location (with your permission)"
+            }
+          }
+        }
+      },
+      "InfoUsage": {
+        "Title": "How We Use Information",
+        "Intro": "We use the information we collect for the following purposes:",
+        "Items": {
+          "Manage": "Manage your account and provide technical support",
+          "Improve": "Improve user experience within the app",
+          "Notify": "Send notifications about auctions or products you are interested in",
+          "Detect": "Detect any violations or fraudulent activities"
+        }
+      },
+      "InfoSharing": {
+        "Title": "Information Sharing",
+        "Intro": "We will not share your personal information with third parties without your consent, except in the following cases:",
+        "Items": {
+          "Legal": "Complying with laws or responding to court orders",
+          "Fraud": "Protection against fraud or preventing illegal activities",
+          "Logistics": "Dealing with shipping or payment companies to facilitate buying and selling"
+        }
+      },
+      "Cookies": {
+        "Title": "Cookies",
+        "Intro": "We may use cookies to collect data about your activity within the app, to improve our services and provide personalized features for you."
+      },
+      "UserRights": {
+        "Title": "User Rights",
+        "Intro": "You have the right to:",
+        "Items": {
+          "Access": "Access and modify your personal data",
+          "Delete": "Delete your account at any time",
+          "OptOut": "Opt out of marketing notifications"
+        },
+        "Note": "To request any of the above rights, please contact us via the email mentioned below."
+      },
+      "PolicyUpdates": {
+        "Title": "Policy Updates",
+        "Intro": "We may update this privacy policy from time to time.",
+        "Items": {
+          "Notify": "Users will be notified of changes via the app or email",
+          "Consent": "Your continued use of the app means your agreement to the updated policy"
+        }
+      },
+      "Contact": {
+        "Title": "Contact Us",
+        "Intro": "For inquiries or feedback regarding privacy, please contact via:",
+        "EmailLabel": "Email",
+        "PhoneLabel": "Phone"
+      }
+    },
+    "Footer": {
+      "Title": "Your Privacy Matters to Us",
+      "Description": "If you have any questions about the privacy policy, feel free to contact us",
+      "Button": "Contact Us"
+    }
   },
   "Models": {
     "Register": {
       "BtnTitle": "Login",
       "LoginModelTitle": "Login",
-      "LoginModelDescription": "Please enter your username/email and password to log in",
+      "LoginModelDescription": "Please enter your phone number and password to log in",
       "RegisterModelTitle": "Create Account",
       "RegisterModelDescription": "Enter your personal information",
       "ForgetModelTitle": "Forgot Password?",
-      "ForgetModelDescription": "Please enter your email address"
+      "ForgetModelDescription": "Please enter your phone number"
     },
     "Banner": {
       "BtnTitle": "Add Advertisement",
@@ -170,7 +326,10 @@
       "DurationLabel": "Auction Duration",
       "DurationPlaceholder": "Select end date",
       "DescriptionLabel": "Description",
-      "DescriptionPlaceholder": "Enter a full description of the product"
+      "DescriptionPlaceholder": "Enter a full description of the product",
+      "SelectSubCategoryFirst": "Select category first",
+      "SelectDate": "Select date",
+      "SelectDatePlaceholder": "Select date"
     },
     "Location&Contact": {
       "Title": "Location & Contact",
@@ -208,6 +367,9 @@
   },
   "ProductsFilters": {
     "search": "Search for a product...",
+    "category": "Category",
+    "sub_category": "Sub Category",
+    "all": "All",
     "sort": "Sort by",
     "latest": "Latest",
     "oldest": "Oldest",
@@ -219,5 +381,95 @@
     "used": "Used",
     "min_price": "Min Price",
     "max_price": "Max Price"
+  },
+  "Footer": {
+    "quickLinks": "Quick Links",
+    "policies": "Policies & Support",
+    "home": "Home",
+    "about": "About Us",
+    "services": "Services",
+    "contact": "Contact Us",
+    "categories": "Categories",
+    "auctions": "Auctions",
+    "packages": "Packages",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use",
+    "returnPolicy": "Return Policy",
+    "faq": "FAQ",
+    "rights": "All rights reserved to Swaam © {year}",
+    "developer": "Frontend Developer: Ahmed ElMadany",
+    "social": "Social Links",
+    "downloadApp": "Download App",
+    "loginToAccessPackages": "You must login first"
+  },
+  "Notifications": {
+    "title": "Notifications",
+    "deleteAll": "Delete All Notifications",
+    "deleteAllSuccess": "All notifications deleted successfully",
+    "deleteAllError": "Error deleting notifications",
+    "deleteSuccess": "Notification deleted successfully",
+    "deleteError": "Error deleting notification",
+    "delete": "Delete",
+    "markReadError": "Error marking notifications as read:"
+  },
+  "Ads": {
+    "title": "Ads Display",
+    "error_loading_ads": "Error loading ads"
+  },
+  "Packages": {
+    "title": "Packages",
+    "error_loading_packages": "Error loading packages"
+  },
+  "HomePage": {
+    "latestProducts": "Latest ads",
+    "latestAuctions": "Latest Auctions",
+    "seeMore": "See More"
+  },
+  "NavbarMobile": {
+    "openMenu": "Open Menu",
+    "menu": "Menu",
+    "browsing": "Browsing",
+    "quickActions": "Quick Actions",
+    "account": "Account",
+    "rights": "All rights reserved"
+  },
+  "Metadata": {
+    "title": "Swaam",
+    "description": "Swaam ecommerce",
+    "keywords": "keyword 1, keyword 2, product name, etc...",
+    "ogDescription": "Brief description for Facebook or LinkedIn sharing"
+  },
+  "ProductDetails": {
+    "ProductNotFound": "Product not found",
+    "DescriptionLabel": "Description",
+    "Notes": "Notes",
+    "CurrentPrice": "Current Price",
+    "Auction": "Auction",
+    "Condition": "Condition",
+    "New": "New",
+    "Used": "Used",
+    "Views": "Views",
+    "City": "City",
+    "PublishedAt": "Published",
+    "TrustedSeller": "Trusted Seller",
+    "SeeMore": "See More",
+    "SimilarProducts": "Similar Products",
+    "ShareTitle": "Check out this product:",
+    "ShareSuccess": "Shared successfully ✅",
+    "CopySuccess": "Link copied to clipboard ✅",
+    "ShareError": "Failed to share",
+    "CopyError": "Failed to copy",
+    "AuctionBtnTitle": "Bid",
+    "AuctionModelTitle": "Bid on Item",
+    "ChatPlaceholder": "Enter the bid amount",
+    "ChatSender": "You",
+    "AddToFavorites": "Add to favorites",
+    "RemoveFromFavorites": "Remove from favorites",
+    "AddedToFavorites": "Added to favorites",
+    "RemovedFromFavorites": "Removed from favorites",
+    "FeatureProduct": "Feature",
+    "BidValidationError": "Please enter a valid amount",
+    "BidSuccess": "Bid placed successfully",
+    "BidError": "An error occurred while placing the bid"
   }
 }

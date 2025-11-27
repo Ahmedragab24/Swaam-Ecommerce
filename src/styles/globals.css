@@ -128,7 +128,7 @@
   }
 
   .Nav_Link {
-    @apply text-white text-xl font-bold duration-300 ease-in-out hover:text-muted;
+    @apply text-white text-sm md:text-lg font-bold duration-300 ease-in-out hover:text-muted;
   }
 
   .Title_Section {

@@ -19,6 +19,8 @@ import { AuctionsApi } from "./services/Auctions";
 import { ProfileApi } from "./services/Auth/Profile";
 import { AuthApi } from "./services/Auth/Auth";
 import { ProductsApi } from "./services/Products";
+import { AdsApi } from "./services/Ads";
+import { NotificationsApi } from "./services/Notifications";
 
 // import CustomizeMenuReducer from "@/store/features/CustomizeMenu/CustomizeMenu";
 
@@ -33,6 +35,8 @@ const rootReducer = combineReducers({
   [CountriesApi.reducerPath]: CountriesApi.reducer,
   [AuctionsApi.reducerPath]: AuctionsApi.reducer,
   [PackagesApi.reducerPath]: PackagesApi.reducer,
+  [AdsApi.reducerPath]: AdsApi.reducer,
+  [NotificationsApi.reducerPath]: NotificationsApi.reducer,
 });
 
 const persistConfig = {
@@ -58,7 +62,9 @@ export const store = configureStore({
       PackagesApi.middleware,
       AuctionsApi.middleware,
       ProductsApi.middleware,
-      CompanyInfoApi.middleware
+      NotificationsApi.middleware,
+      CompanyInfoApi.middleware,
+      AdsApi.middleware
     ),
 });
 

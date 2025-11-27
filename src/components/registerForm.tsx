@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { ErrorType } from "@/types";
 import { RegisterType } from "@/types/Auth";
 import { TypeRegisterModel } from "./btnRegister";
+import { getFcmToken, getDeviceId } from "@/lib/deviceUtils";
 
 interface IProps {
   switchToLogin: (value: TypeRegisterModel) => void;
@@ -42,6 +43,9 @@ const RegisterForm = ({ switchToLogin, setPhone }: IProps) => {
       name: values.username,
       phone: values.phone.code + values.phone.number,
       password: values.password,
+      code: values.phone.code,
+      fcm: getFcmToken(),
+      device_id: getDeviceId(),
     };
 
     try {

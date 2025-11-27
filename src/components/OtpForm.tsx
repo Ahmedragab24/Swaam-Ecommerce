@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,23 +16,28 @@ import { Form, FormField, FormItem, FormMessage } from "./ui/form";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "./ui/input-otp";
 import { Button } from "./ui/button";
 import { VerifyOtpType } from "@/types/Auth";
-
-const OtpFormSchema = z.object({
-  code: z.string().min(4, "الرمز مطلوب"),
-});
+import { useTranslations } from "next-intl";
 
 interface Props {
   phone: string;
   setOpen?: (value: boolean) => void;
 }
 
+const INITIAL_TIMER_SECONDS = 20;
+
 export default function OtpForm({ phone, setOpen }: Props) {
-  const [VerifyOtp] = useVerifyOtpMutation();
-  const [VerifyResetOtp] = useResendOtpMutation();
-  const [resendTimer, setResendTimer] = useState(90);
+  const t = useTranslations("Form");
+
+  const OtpFormSchema = z.object({
+    code: z.string().min(4, t("Otp.CodeRequired")),
+  });
+
+  const [verifyOtp, { isLoading: isVerifyingOtp }] = useVerifyOtpMutation();
+  const [resendOtp, { isLoading: isResendingOtp }] = useResendOtpMutation();
+
+  const [resendTimer, setResendTimer] = useState(INITIAL_TIMER_SECONDS);
   const [canResend, setCanResend] = useState(false);
-  const [isResending, setIsResending] = useState(false);
-  const [isVerifying, setIsVerifying] = useState(false);
+  const isSubmittingRef = useRef(false);
 
   const form = useForm<z.infer<typeof OtpFormSchema>>({
     resolver: zodResolver(OtpFormSchema),
@@ -43,11 +48,15 @@ export default function OtpForm({ phone, setOpen }: Props) {
   useEffect(() => {
     if (resendTimer > 0) {
       const timer = setTimeout(() => {
-        setResendTimer((prev) => prev - 1);
+        setResendTimer((prev) => {
+          const newValue = prev - 1;
+          if (newValue === 0) {
+            setCanResend(true);
+          }
+          return newValue;
+        });
       }, 1000);
       return () => clearTimeout(timer);
-    } else {
-      setCanResend(true);
     }
   }, [resendTimer]);
 
@@ -60,78 +69,68 @@ export default function OtpForm({ phone, setOpen }: Props) {
 
   // Reset timer
   const resetTimer = useCallback(() => {
-    setResendTimer(90); // Reset to initial 90 seconds
+    setResendTimer(INITIAL_TIMER_SECONDS);
     setCanResend(false);
   }, []);
 
   // Handle resend code
   const handleResendCode = async () => {
-    if (!canResend || isResending) return;
-    setIsResending(true);
+    if (!canResend || isResendingOtp) return;
 
     try {
-      await VerifyResetOtp(phone).unwrap();
-      toast.success("تم التحقق وتسجيل دخولك بنجاح");
+      await resendOtp(phone).unwrap();
+      toast.success(t("Otp.ResendSuccess"));
       resetTimer();
-      form.setValue("code", "", { shouldValidate: true });
-
-      setTimeout(() => {
-        window.location.reload();
-      }, 800);
+      form.reset({ code: "" });
     } catch (error) {
       console.error("Error resending code:", error);
-      toast.error("فشل في إرسال الرمز");
-    } finally {
-      setIsResending(false);
+      const err = error as ErrorType;
+      const errorMessage = err.data?.message || t("Otp.ResendError");
+      toast.error(errorMessage);
     }
   };
 
   // Handle code verification
   async function onSendCode(values: z.infer<typeof OtpFormSchema>) {
-    if (isVerifying) return;
-    setIsVerifying(true);
+    if (isVerifyingOtp || isSubmittingRef.current) return;
+    isSubmittingRef.current = true;
 
     const data: VerifyOtpType = {
       phone: phone,
-      otp: values.code || "",
+      otp: values.code,
     };
 
     try {
-      const res = await VerifyOtp(data).unwrap();
-      toast.success("تم تأكيد الرمز بنجاح");
-      setAuthTokenClient(res.token || "");
+      const res = await verifyOtp(data).unwrap();
+      toast.success(t("LoginSuccess"));
+      setAuthTokenClient(res?.token || "");
       setOpen?.(false);
-
-      setTimeout(() => {
-        window.location.reload();
-      }, 800);
+      setTimeout(() => window.location.reload(), 800);
     } catch (error) {
       const err = error as ErrorType;
-      const firstError = err.data?.message || "حدث خطأ غير متوقع";
+      const firstError = err.data?.message || t("Otp.UnexpectedError");
       toast.error(firstError);
+      form.reset({ code: "" });
     } finally {
-      setIsVerifying(false);
-      form.setValue("code", "", { shouldValidate: true });
+      isSubmittingRef.current = false;
     }
   }
 
   // Auto-submit when code is complete
   const handleCodeChange = (value: string) => {
     form.setValue("code", value, { shouldValidate: true });
-    if (value.length === 4) {
+    if (value.length === 4 && !isVerifyingOtp && !isSubmittingRef.current) {
       setTimeout(() => {
         form.handleSubmit(onSendCode)();
-      }, 400);
+      }, 300);
     }
   };
 
   return (
     <div className="max-w-md mx-auto text-center">
-      <h2 className="text-lg font-semibold mb-2">إرسال رمز التحقق</h2>
+      <h2 className="text-lg font-semibold mb-2">{t("Otp.Title")}</h2>
       <div className="flex flex-col justify-center items-center mb-4">
-        <p className="text-muted-foreground text-sm">
-          يرجى إدخال الرمز المُرسل إلى رقم هاتفك لتأكيد هويتك على الرقم
-        </p>
+        <p className="text-muted-foreground text-sm">{t("Otp.Description")}</p>
         <span className="text-primary font-semibold">{phone}</span>
       </div>
       <Form {...form}>
@@ -147,13 +146,25 @@ export default function OtpForm({ phone, setOpen }: Props) {
                     pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
                     value={field.value}
                     onChange={handleCodeChange}
-                    disabled={isVerifying}
+                    disabled={isVerifyingOtp}
                   >
-                    <InputOTPGroup>
-                      <InputOTPSlot index={0} />
-                      <InputOTPSlot index={1} />
-                      <InputOTPSlot index={2} />
-                      <InputOTPSlot index={3} />
+                    <InputOTPGroup className="gap-3" dir="ltr">
+                      <InputOTPSlot
+                        index={0}
+                        className="w-14 h-14 text-lg rounded-md border"
+                      />
+                      <InputOTPSlot
+                        index={1}
+                        className="w-14 h-14 text-lg rounded-md border"
+                      />
+                      <InputOTPSlot
+                        index={2}
+                        className="w-14 h-14 text-lg rounded-md border"
+                      />
+                      <InputOTPSlot
+                        index={3}
+                        className="w-14 h-14 text-lg rounded-md border"
+                      />
                     </InputOTPGroup>
                   </InputOTP>
                 </div>
@@ -161,8 +172,12 @@ export default function OtpForm({ phone, setOpen }: Props) {
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full h-11" disabled={isVerifying}>
-            استمرار
+          <Button
+            type="submit"
+            className="w-full h-11"
+            disabled={isVerifyingOtp}
+          >
+            {isVerifyingOtp ? t("Loading") : t("Submit")}
           </Button>
         </form>
       </Form>
@@ -172,13 +187,13 @@ export default function OtpForm({ phone, setOpen }: Props) {
             variant="link"
             className="text-primary underline"
             onClick={handleResendCode}
-            disabled={isResending}
+            disabled={isResendingOtp}
           >
-            إعادة الإرسال مرة أخرى
+            {isResendingOtp ? t("Loading") : t("Otp.ResendBtn")}
           </Button>
         ) : (
           <span>
-            لم تتلقَ رمز التأكيد؟ إعادة الإرسال بعد {formatTime(resendTimer)}
+            {t("Otp.NoCode")} {formatTime(resendTimer)}
           </span>
         )}
       </div>

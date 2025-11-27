@@ -5,7 +5,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 export async function getHome() {
   try {
     const res = await fetch(`${API_BASE_URL}/home`, {
-      cache: "force-cache",
+      cache: "no-cache",
     });
 
     if (!res.ok) throw new Error("فشل في جلب البيانات");

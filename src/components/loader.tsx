@@ -22,7 +22,7 @@ const LoaderSpin = ({ title = "Loading...", size, type }: IProps) => {
           alt="loader"
           width={70}
           height={70}
-          className="animate-spin"
+          className="animate-spin w-10 h-10 md:w-16 md:h-16"
         />
       )}
 
@@ -30,7 +30,7 @@ const LoaderSpin = ({ title = "Loading...", size, type }: IProps) => {
         className={`${type === "Btn" ? "text-white" : "text-muted"} font-bold ${
           size === "sm" && "text-sm"
         } ${size === "md" && "text-xl"}
-        ${size === "lg" && "text-3xl"}  
+        ${size === "lg" && "text-xl md:text-3xl"}  
         `}
       >
         {title}
