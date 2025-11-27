@@ -11,16 +11,23 @@ import Autoplay from "embla-carousel-autoplay";
 import React from "react";
 import { motion } from "framer-motion";
 import { useGetHomeQuery } from "@/store/services/Home";
+import { Skeleton } from "./ui/skeleton";
 
 const BannersList = () => {
   const [api, setApi] = React.useState<CarouselApi>();
   const [selectedIndex, setSelectedIndex] = React.useState(0);
+
   const plugin = React.useRef(
     Autoplay({ delay: 2800, stopOnInteraction: true })
   );
-  const { data } = useGetHomeQuery();
-  const Banners = data?.data?.banners || [];
 
+  const { data, isLoading } = useGetHomeQuery();
+
+  const Banners = React.useMemo(() => {
+    return data?.data?.banners ?? [];
+  }, [data]);
+
+  // Track selected slide
   React.useEffect(() => {
     if (!api) return;
 
@@ -39,57 +46,67 @@ const BannersList = () => {
 
   return (
     <div className="w-full">
-      <Carousel
-        plugins={[plugin.current]}
-        onMouseEnter={() => plugin.current.stop()}
-        onMouseLeave={() => plugin.current.play()}
-        opts={{
-          align: "start",
-          loop: true,
-        }}
-        setApi={setApi}
-        className="w-full"
-      >
-        <CarouselContent className="-ml-1 sm:-ml-2 lg:-ml-4 rtl:flex-row-reverse pb-4 pt-8">
-          {Banners.map((banner) => (
-            <CarouselItem
-              key={banner.id}
-              className="pl-1 sm:pl-2 lg:pl-4 basis-full sm:basis-1/2 lg:basis-1/2"
-            >
-              <div className="h-full">
+      {isLoading ? (
+        <Skeleton className="h-[500px] w-full rounded-2xl" />
+      ) : Banners.length === 0 ? (
+        <p className="text-center text-gray-500 py-10">No Banners Found</p>
+      ) : (
+        <Carousel
+          plugins={[plugin.current]}
+          onMouseEnter={() => plugin.current.stop()}
+          onMouseLeave={() => plugin.current.play()}
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          setApi={setApi}
+          className="w-full"
+        >
+          <CarouselContent className="-ml-1 sm:-ml-2 lg:-ml-4 rtl:flex-row-reverse pb-4 pt-8">
+            {Banners.map((banner, index) => (
+              <CarouselItem
+                key={banner.id}
+                className="pl-1 sm:pl-2 lg:pl-4 basis-full sm:basis-1/2 lg:basis-1/2"
+              >
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
                     duration: 0.6,
-                    delay: banner.id * 0.1,
+                    delay: index * 0.15,
                     ease: "easeOut",
                   }}
                   className="w-full h-full"
                 >
                   <CardHero banner={banner} />
                 </motion.div>
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
 
-        {/* Pagination Dots */}
-        <div className="flex justify-center items-center gap-1 sm:gap-2 mt-2 sm:mt-4">
-          {Banners.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => api?.scrollTo(index)}
-              className={`transition-all duration-300 cursor-pointer hover:opacity-80 ${
-                selectedIndex === index
-                  ? "w-6 sm:w-8 lg:w-12 h-1 sm:h-1.5 lg:h-2 bg-primary rounded-full"
-                  : "w-1 sm:w-1.5 lg:w-2 h-1 sm:h-1.5 lg:h-2 bg-gray-400 rounded-full hover:bg-gray-500"
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
-      </Carousel>
+          {/* Pagination Dots */}
+          <div className="flex justify-center items-center gap-1 sm:gap-2 mt-2 sm:mt-4">
+            {Banners.map((_, index) => {
+              const isActive = selectedIndex === index;
+              return (
+                <button
+                  key={index}
+                  onClick={() => api?.scrollTo(index)}
+                  disabled={!api}
+                  className={`transition-all duration-300 cursor-pointer 
+                    ${
+                      isActive
+                        ? "w-6 sm:w-8 lg:w-12 h-1 sm:h-1.5 lg:h-2 bg-primary rounded-full"
+                        : "w-1 sm:w-1.5 lg:w-2 h-1 sm:h-1.5 lg:h-2 bg-gray-400 rounded-full hover:bg-gray-500"
+                    }
+                  `}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              );
+            })}
+          </div>
+        </Carousel>
+      )}
     </div>
   );
 };

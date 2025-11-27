@@ -1,4 +1,3 @@
-// import { getCsrfToken, refreshCsrfToken } from "@/lib/csrf";
 import {
   LoginType,
   RegisterType,
@@ -46,15 +45,6 @@ export const AuthApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_API_URL,
-    // prepareHeaders: async (headers) => {
-    //   await refreshCsrfToken();
-    //   const csrfToken = getCsrfToken();
-    //   if (csrfToken) {
-    //     headers.set("X-XSRF-TOKEN", csrfToken);
-    //   }
-    //   headers.set("X-Requested-With", "XMLHttpRequest");
-    //   return headers;
-    // },
   }),
   endpoints: (builder) => ({
     Register: builder.mutation<RegisterResponse, RegisterType>({
@@ -84,6 +74,14 @@ export const AuthApi = createApi({
     VerifyOtp: builder.mutation<LoginResponse, VerifyOtpType>({
       query: (body) => ({
         url: `/verify-otp`,
+        method: "POST",
+        body,
+      }),
+    }),
+
+    SendSms: builder.mutation<LoginResponse, FormData>({
+      query: (body) => ({
+        url: `/sms/send`,
         method: "POST",
         body,
       }),
@@ -146,6 +144,7 @@ export const {
   useRegisterMutation,
   useLoginMutation,
   useVerifyOtpMutation,
+  useSendSmsMutation,
   useLogoutMutation,
   useResetPasswordMutation,
   useResendOtpMutation,

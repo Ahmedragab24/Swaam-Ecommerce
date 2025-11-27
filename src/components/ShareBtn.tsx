@@ -5,27 +5,31 @@ import { Share2 } from "lucide-react";
 import React from "react";
 import { toast } from "sonner";
 
+import { useTranslations } from "next-intl";
+
 const ShareButton = () => {
+  const t = useTranslations("ProductDetails");
+
   const handleShare = async () => {
     const shareData = {
       title: document.title,
-      text: "شاهد هذا العقار:",
+      text: t("ShareTitle"),
       url: window.location.href,
     };
 
     if (navigator.share) {
       try {
         await navigator.share(shareData);
-        toast.success("تم المشاركة بنجاح ✅");
+        toast.success(t("ShareSuccess"));
       } catch (err) {
-        console.error("فشل في المشاركة:", err);
+        console.error(t("ShareError"), err);
       }
     } else {
       try {
         await navigator.clipboard.writeText(window.location.href);
-        toast.success("تم نسخ الرابط إلى الحافظة ✅");
+        toast.success(t("CopySuccess"));
       } catch (err) {
-        console.error("فشل في النسخ:", err);
+        console.error(t("CopyError"), err);
       }
     }
   };

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Edit3 } from "lucide-react";
@@ -9,13 +9,26 @@ import { z } from "zod";
 import { UpdateAccountFormSchema } from "@/schemas/updateAccount";
 import { FormControl, FormField, FormItem, FormMessage } from "./ui/form";
 
+import { useTranslations } from "next-intl";
+
 export default function EditableAvatar({
   control,
+  initialImage,
 }: {
   control: Control<z.infer<typeof UpdateAccountFormSchema>>;
+  initialImage?: string | null;
 }) {
+  const t = useTranslations("Form");
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [imageUrl, setImageUrl] = useState("/Icons/user.png");
+  const [imageUrl, setImageUrl] = useState(
+    initialImage || "/Icons/userPlaceholder.svg"
+  );
+
+  useEffect(() => {
+    if (initialImage) {
+      setImageUrl(initialImage);
+    }
+  }, [initialImage]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -32,14 +45,14 @@ export default function EditableAvatar({
     <FormField
       control={control}
       name="photo"
-      render={({ field }) => (
+      render={({ field: { value, onChange, ...fieldProps } }) => (
         <FormItem>
           <FormControl>
             <div className="w-fit mx-auto relative inline-block mb-4">
-              <Avatar className="w-24 h-24 mx-auto">
+              <Avatar className="w-24 h-24 mx-auto border border-gray-500">
                 <AvatarImage
                   src={imageUrl}
-                  alt="Profile Picture"
+                  alt={t("ProfilePicture")}
                   className="object-cover"
                 />
                 <AvatarFallback className="text-xl font-semibold bg-card text-gray-700">
@@ -61,11 +74,22 @@ export default function EditableAvatar({
               </Button>
 
               <input
-                {...field}
+                {...fieldProps}
                 type="file"
                 accept="image/*"
-                ref={fileInputRef}
-                onChange={handleFileChange}
+                ref={(e) => {
+                  fieldProps.ref(e);
+                  // @ts-ignore
+                  fileInputRef.current = e;
+                }}
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
+                  if (file) {
+                    const url = URL.createObjectURL(file);
+                    setImageUrl(url);
+                    onChange(file);
+                  }
+                }}
                 className="hidden"
               />
             </div>

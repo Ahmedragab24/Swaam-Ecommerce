@@ -17,21 +17,25 @@ import {
 import { UserMenu } from "@/constants";
 import { LogOut } from "lucide-react";
 import { usePathname } from "@/i18n/navigation";
-import { useLocale } from "next-intl";
-import { useTranslations } from "use-intl";
 import { useGetUserInfoQuery } from "@/store/services/Auth/Profile";
-
-
-
-
+import { useLogoutMutation } from "@/store/services/Auth/Auth";
+import { toast } from "sonner";
+import {
+  getAuthTokenClient,
+  removeAuthTokenClient,
+} from "@/lib/auth/auth-client";
+import { useLocale, useTranslations } from "next-intl";
 
 const UserAvatar = () => {
   const locale = useLocale();
   const pathname = usePathname();
   const t = useTranslations("userAvatar");
-  const { data } = useGetUserInfoQuery()
-  const userInfo = data?.data.user
+  const { data } = useGetUserInfoQuery();
+  const userInfo = data?.data.user;
+  const [logOutMutation] = useLogoutMutation();
+  const token = getAuthTokenClient();
 
+  console.log("userInfo", userInfo);
 
   const getPathWithoutLocale = () => {
     const segments = pathname.split("/");
@@ -43,6 +47,25 @@ const UserAvatar = () => {
 
   const cleanPath = getPathWithoutLocale();
 
+  const logOut = async () => {
+    try {
+      await logOutMutation(token).unwrap();
+      removeAuthTokenClient();
+      toast.success(t("LogoutSuccessfully"));
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    } catch (error) {
+      console.error(error);
+      // Even if API fails, we should probably clear local state
+      removeAuthTokenClient();
+      toast.error(t("LogoutFailed"));
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    }
+  };
+
   return (
     <DropdownMenu dir={locale === "ar" ? "rtl" : "ltr"}>
       <DropdownMenuTrigger asChild>
@@ -51,12 +74,11 @@ const UserAvatar = () => {
           className="rounded-full !p-0 cursor-pointer duration-500 group transition-all"
         >
           <span className="flex text-sm text-white dark:group-hover:text-white font-medium gap-2 group-hover:text-muted rtl:pr-2 ltr:pl-2">
-            <h3>مرحبا</h3>
             <h3>{userInfo?.name}</h3>
           </span>
           <Avatar className="h-9 w-9">
             <AvatarImage
-              src="/Logo/user.png"
+              src={userInfo?.image || "/Logo/user.png"}
               alt="User Avatar"
               className="bg-background"
             />
@@ -75,12 +97,13 @@ const UserAvatar = () => {
               className="object-cover"
             />
             <AvatarFallback className="bg-red-100 text-red-600 font-semibold">
-              {userInfo?.name.charAt(0).toUpperCase()}
+              {(userInfo?.name || "U").charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
           <div
-            className={`flex flex-col items-${locale === "ar" ? "end" : "start"
-              }`}
+            className={`flex flex-col items-${
+              locale === "ar" ? "end" : "start"
+            }`}
           >
             <span className="font-semibold text-gray-900 dark:text-white">
               {userInfo?.name}
@@ -100,13 +123,18 @@ const UserAvatar = () => {
           return (
             <div key={item.name}>
               {item.path ? (
-                <DropdownMenuItem asChild className="text-gray-600">
+                <DropdownMenuItem
+                  asChild
+                  className="text-gray-600"
+                  onClick={() => (isLogout ? logOut() : null)}
+                >
                   <Link
                     href={`/${locale}${item.path}`}
-                    className={`flex items-center gap-3 px-3 py-2 rounded-md cursor-pointer transition-colors ${isLogout
-                      ? "text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
-                      : "hover:bg-gray-100 dark:hover:bg-gray-800"
-                      }`}
+                    className={`flex items-center gap-3 px-3 py-2 rounded-md cursor-pointer transition-colors ${
+                      isLogout
+                        ? "text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
+                        : "hover:bg-gray-100 dark:hover:bg-gray-800"
+                    }`}
                   >
                     {isLogout ? (
                       <LogOut className="h-4 w-4" />
@@ -140,8 +168,9 @@ const UserAvatar = () => {
                     {item.languages.map((menuItem) => (
                       <DropdownMenuItem key={menuItem.code} asChild>
                         <Link
-                          href={`/${menuItem.code}${cleanPath === "/" ? "" : cleanPath
-                            }`}
+                          href={`/${menuItem.code}${
+                            cleanPath === "/" ? "" : cleanPath
+                          }`}
                           className="flex items-center gap-3 px-3 py-2 cursor-pointer"
                         >
                           <div className="w-4 h-4 rounded-full border border-gray-300 flex items-center justify-center">
@@ -155,10 +184,12 @@ const UserAvatar = () => {
                 </DropdownMenuSub>
               ) : (
                 <DropdownMenuItem
-                  className={`flex items-center gap-3 px-3 py-2 cursor-pointer ${isLogout
-                    ? "text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
-                    : ""
-                    }`}
+                  className={`flex items-center gap-3 px-3 py-2 cursor-pointer ${
+                    isLogout
+                      ? "text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
+                      : ""
+                  }`}
+                  onClick={() => (isLogout ? logOut() : null)}
                 >
                   {isLogout ? (
                     <LogOut className="h-4 w-4" />

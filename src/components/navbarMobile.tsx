@@ -13,9 +13,12 @@ import BtnRegister from "./btnRegister";
 import UserAvatar from "./userAvatar";
 import { getAuthTokenClient } from "@/lib/auth/auth-client";
 
+import { useTranslations } from "next-intl";
+
 const NavbarMobile = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const token = getAuthTokenClient()
+  const token = getAuthTokenClient();
+  const t = useTranslations("NavbarMobile");
 
   return (
     <div className="flex lg:hidden justify-between items-center sticky top-0 z-50">
@@ -33,7 +36,7 @@ const NavbarMobile = () => {
             className="relative h-10 w-10 rounded-xl bg-gradient-to-br from-slate-100 to-slate-200 hover:from-slate-200 hover:to-slate-300 border border-slate-200/50 shadow-sm transition-all duration-300 hover:shadow-md"
           >
             <Menu className="h-5 w-5 text-slate-700" />
-            <span className="sr-only">فتح القائمة</span>
+            <span className="sr-only">{t("openMenu")}</span>
           </Button>
         </SheetTrigger>
 
@@ -51,7 +54,7 @@ const NavbarMobile = () => {
                 <div className="p-2 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg shadow-lg">
                   <Sparkles className="h-5 w-5 text-white" />
                 </div>
-                <h2 className="text-xl font-bold text-white">القائمة</h2>
+                <h2 className="text-xl font-bold text-white">{t("menu")}</h2>
               </div>
               <Button
                 variant="ghost"
@@ -75,7 +78,7 @@ const NavbarMobile = () => {
               <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 shadow-xl">
                 <h3 className="text-sm font-semibold text-white/90 mb-4 flex items-center gap-2">
                   <div className="w-2 h-2 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full"></div>
-                  التصفح
+                  {t("browsing")}
                 </h3>
                 <NavMenu setIsOpen={setIsOpen} />
               </div>
@@ -86,7 +89,7 @@ const NavbarMobile = () => {
               <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 shadow-xl">
                 <h3 className="text-sm font-semibold text-white/90 mb-4 flex items-center gap-2">
                   <div className="w-2 h-2 bg-gradient-to-r from-pink-400 to-orange-400 rounded-full"></div>
-                  الإجراءات السريعة
+                  {t("quickActions")}
                 </h3>
                 <NavIcons setIsOpen={setIsOpen} />
               </div>
@@ -97,14 +100,10 @@ const NavbarMobile = () => {
               <div className="bg-gradient-to-r from-white/15 to-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20 shadow-xl">
                 <h3 className="text-sm font-semibold text-white/90 mb-4 flex items-center gap-2">
                   <div className="w-2 h-2 bg-gradient-to-r from-green-400 to-blue-400 rounded-full"></div>
-                  الحساب
+                  {t("account")}
                 </h3>
                 <div className="space-x-3">
-                  {token ? (
-                    <UserAvatar />
-                  ) : (
-                    <BtnRegister />
-                  )}
+                  {token ? <UserAvatar /> : <BtnRegister />}
                   <BtnBanner />
                 </div>
               </div>
@@ -113,7 +112,7 @@ const NavbarMobile = () => {
             {/* Footer */}
             <div className="px-6 py-4 border-t border-white/10">
               <p className="text-xs text-white/60 text-center font-medium">
-                © 2024 جميع الحقوق محفوظة
+                {t("rights")}
               </p>
             </div>
           </div>

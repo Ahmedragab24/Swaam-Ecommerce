@@ -14,7 +14,6 @@ import { useLoginMutation } from "@/store/services/Auth/Auth";
 import { LoginType } from "@/types/Auth";
 import { toast } from "sonner";
 import { ErrorType } from "@/types";
-import { setAuthTokenClient } from "@/lib/auth/auth-client";
 import { TypeRegisterModel } from "./btnRegister";
 
 interface IProps {
@@ -38,17 +37,16 @@ const LoginForm = ({ switchToLogin, switchToForgetPassword }: IProps) => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    const cleanCode = values.phone.code.replace("+", "");
+
     const data: LoginType = {
-      phone: values.phone.code + values.phone.number,
+      phone: cleanCode + values.phone.number,
       password: values.password,
     };
 
     try {
-      const res = await Login(data).unwrap();
-
-      toast.success(t("LoginSuccess"));
-      setAuthTokenClient(res?.token || "");
-      setTimeout(() => window.location.reload(), 800);
+      await Login(data).unwrap();
+      switchToLogin("otp");
     } catch (error) {
       const err = error as ErrorType;
       toast.error(err?.data?.message);

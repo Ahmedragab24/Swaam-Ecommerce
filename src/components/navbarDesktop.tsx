@@ -1,6 +1,4 @@
-
-
-"use client"
+"use client";
 
 import BtnBanner from "./btnBanner";
 import BtnRegister from "./btnRegister";
@@ -12,8 +10,7 @@ import UserAvatar from "./userAvatar";
 import { getAuthTokenClient } from "@/lib/auth/auth-client";
 
 const NavbarDesktop = () => {
-  const token = getAuthTokenClient()
-
+  const token = getAuthTokenClient();
 
   return (
     <div className="hidden lg:flex justify-between items-center gap-4">
@@ -24,11 +21,7 @@ const NavbarDesktop = () => {
       <div className="flex items-center gap-2">
         <BtnBanner />
 
-        {token ? (
-          <UserAvatar />
-        ) : (
-          <BtnRegister />
-        )}
+        {token ? <UserAvatar /> : <BtnRegister />}
       </div>
     </div>
   );

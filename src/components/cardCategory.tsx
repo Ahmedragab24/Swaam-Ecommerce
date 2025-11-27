@@ -23,7 +23,7 @@ const CardCategory = ({ category }: CardCategoryProps) => {
         />
       </div>
       <h1 className="text-center text-sm md:text-lg font-bold mt-3 group-hover:scale-110 group-hover:text-muted transition-all duration-300">
-        {category?.name || ""}
+        {locale === "ar" ? category?.name || "" : category?.name_en || ""}
       </h1>
     </Link>
   );

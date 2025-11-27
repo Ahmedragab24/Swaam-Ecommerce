@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -10,16 +10,43 @@ import {
   SelectItem,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  useGetHomeQuery,
+  useGetSubCategoriesQuery,
+} from "@/store/services/Home";
 
-export default function ProductsFilters() {
+export default function ProductsFilters({
+  type,
+}: {
+  type: "all" | "category";
+}) {
   const t = useTranslations("ProductsFilters");
   const router = useRouter();
   const params = useSearchParams();
+  const lang = useLocale();
+
+  const categoryId = params.get("category_id");
+  const { data: Categories } = useGetHomeQuery();
+  const CategoriesData = Categories?.data?.categories || [];
+
+  const { data: Subcategories } = useGetSubCategoriesQuery(Number(categoryId), {
+    skip: !categoryId || categoryId === "all" || isNaN(Number(categoryId)),
+  });
+  const SubcategoriesData = Subcategories?.data?.subcategories || [];
 
   const updateFilter = (key: string, value: string) => {
     const query = new URLSearchParams(params.toString());
-    if (value && value.trim() !== "") query.set(key, value);
-    else query.delete(key);
+    if (value && value.trim() !== "" && value !== "all") {
+      query.set(key, value);
+    } else {
+      query.delete(key);
+    }
+
+    // If changing category, reset subcategory
+    if (key === "category_id") {
+      query.delete("sub_category_id");
+    }
+
     router.push(`?${query.toString()}`);
   };
 
@@ -31,6 +58,53 @@ export default function ProductsFilters() {
         value={params.get("search") ?? ""}
         onChange={(e) => updateFilter("search", e.target.value)}
       />
+
+      {/* الفئة */}
+      {type === "all" && (
+        <>
+          <Select
+            onValueChange={(value) => {
+              updateFilter("category_id", value);
+            }}
+            value={categoryId ?? ""}
+          >
+            <SelectTrigger className="w-full h-11!">
+              <SelectValue placeholder={t("category")} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">{t("all")}</SelectItem>
+              {CategoriesData.map((category) => (
+                <SelectItem key={category.id} value={category.id.toString()}>
+                  {lang === "ar" ? category.name : category.name_en}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          {/* الفئة الفرعية */}
+          {SubcategoriesData.length > 0 && (
+            <Select
+              onValueChange={(value) => updateFilter("sub_category_id", value)}
+              value={params.get("sub_category_id") ?? ""}
+            >
+              <SelectTrigger className="w-full h-11!">
+                <SelectValue placeholder={t("sub_category")} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">{t("all")}</SelectItem>
+                {SubcategoriesData.map((subCategory) => (
+                  <SelectItem
+                    key={subCategory.id}
+                    value={subCategory.id.toString()}
+                  >
+                    {lang === "ar" ? subCategory.name : subCategory.name_en}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
+        </>
+      )}
 
       {/* السورت */}
       <Select

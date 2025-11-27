@@ -23,11 +23,11 @@ export const ProfileApi = createApi({
   endpoints: (builder) => ({
     getUserInfo: builder.query<ProfileResponseType, void>({
       query: () => ({
-        url: `/profile`,
+        url: `/getUserInfo`,
         method: "GET",
-        headers: {
-          Accept: "application/json",
-        },
+        // headers: {
+        //   Accept: "application/json",
+        // },
       }),
     }),
 

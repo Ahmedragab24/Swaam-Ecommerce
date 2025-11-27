@@ -14,33 +14,39 @@ const TajawalSans = Tajawal({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Swaam",
-  description: "Swaam ecommerce",
-  icons: [{ url: "/logoIcon.png" }],
-  keywords: ["كلمة مفتاحية 1", "كلمة مفتاحية 2", "اسم المنتج", "الخ..."],
-  authors: [{ name: "Swaam", url: "https://Swaam.com" }],
-  creator: "Swaam",
-  publisher: "Swaam",
-  robots: "index, follow",
-  // openGraph: {
-  //   title: "Swaam",
-  //   description: "وصف موجز يظهر عند المشاركة على فيسبوك أو LinkedIn",
-  //   url: "https://yourdomain.com/your-page",
-  //   siteName: "Swaam Store",
-  //   images: [
-  //     {
-  //       url: "/logoBg.png",
-  //       width: 1200,
-  //       height: 630,
-  //       alt: "logo",
-  //     },
-  //   ],
-  //   locale: "ar_AE",
-  //   alternateLocale: "en_Us",
-  //   type: "website",
-  // },
-};
+import { getTranslations } from "next-intl/server";
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+
+  return {
+    title: t("title"),
+    description: t("description"),
+    icons: [{ url: "/logoIcon.png" }],
+    keywords: t("keywords").split(", "),
+    authors: [{ name: "Swaam", url: "https://Swaam.com" }],
+    creator: "Swaam",
+    publisher: "Swaam",
+    robots: "index, follow",
+    openGraph: {
+      title: t("title"),
+      description: t("ogDescription"),
+      url: "https://yourdomain.com/your-page",
+      siteName: "Swaam Store",
+      images: [
+        {
+          url: "/logoBg.png",
+          width: 1200,
+          height: 630,
+          alt: "logo",
+        },
+      ],
+      locale: locale === "ar" ? "ar_AE" : "en_US",
+      type: "website",
+    },
+  };
+}
 
 type Props = {
   children: React.ReactNode;

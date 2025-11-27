@@ -75,13 +75,17 @@ const messages = [
   },
 ];
 
+import { useTranslations } from "next-intl";
+
 const BtnAuctionDetails = () => {
+  const t = useTranslations("ProductDetails");
+
   return (
     <Model
       BtnStyle="text-lg font-bold !px-20 h-11"
       BtnIcon={<Gavel className="w-8 h-8" />}
-      BtnTitle="مزايدة"
-      ModelTitle="المزايده علي شنطة"
+      BtnTitle={t("AuctionBtnTitle")}
+      ModelTitle={t("AuctionModelTitle")}
     >
       <ScrollArea className="h-[80vh] w-auto rounded-md border">
         <div
@@ -125,7 +129,7 @@ const BtnAuctionDetails = () => {
             <div className="flex items-center gap-2">
               <div className="flex-1 relative">
                 <Input
-                  placeholder="كتابة الرسالة..."
+                  placeholder={t("ChatPlaceholder")}
                   className="pr-4 pl-12 py-3 rounded-full border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                 />
               </div>

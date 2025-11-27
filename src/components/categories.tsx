@@ -23,7 +23,7 @@ const CategoriesList = () => {
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: true })
   );
-  const { data } = useGetHomeQuery();
+  const { data, isLoading } = useGetHomeQuery();
   const Categories = data?.data?.categories || [];
 
   return (
@@ -36,7 +36,9 @@ const CategoriesList = () => {
         />
       </div>
 
-      {Categories ? (
+      {isLoading ? (
+        <SkeletonCategories />
+      ) : Categories ? (
         <div className="relative">
           <Carousel
             plugins={[plugin.current]}

@@ -11,7 +11,7 @@ import { AddBannerFormSchema } from "@/schemas/addBannerSchema";
 import CustomUploadImageField from "@/components/customUploadImageField";
 import LoaderSpin from "@/components/loader";
 import CustomSelect from "@/components/customSelect";
-import { Nationality, StateProductOptions } from "@/constants";
+import { StateProductOptions } from "@/constants";
 import { ToggleContact } from "@/components/toggleContact";
 import {
   ImageIcon,
@@ -23,15 +23,21 @@ import {
 import { BreadcrumbDemo } from "@/components/breadcrumb";
 import CustomProductStateField from "@/components/customProductStateField";
 import CustomCard from "@/components/CustomCard";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import CustomFormItem from "@/components/CustomFormItem";
 import { useCreateProductMutation } from "@/store/services/Products";
 import { toast } from "sonner";
 import { ErrorType } from "@/types";
+import {
+  useGetHomeQuery,
+  useGetSubCategoriesQuery,
+} from "@/store/services/Home";
+import { useMemo } from "react";
+import { useGetCitiesQuery } from "@/store/services/Countries";
 
 const AddBannerPage = () => {
-  const [CreateProduct, { isLoading }] = useCreateProductMutation();
   const t = useTranslations("AddAdvertise");
+  const lang = useLocale();
 
   const form = useForm<z.infer<typeof AddBannerFormSchema>>({
     resolver: zodResolver(AddBannerFormSchema),
@@ -50,34 +56,57 @@ const AddBannerPage = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof AddBannerFormSchema>) {
+  const [CreateProduct, { isLoading }] = useCreateProductMutation();
 
+  const { data: Categories } = useGetHomeQuery();
+  const CategoriesData = Categories?.data?.categories || [];
+
+  const categoryId = useMemo(
+    () => Number(form.watch("productCategory") || 0),
+    [form.watch("productCategory")]
+  );
+
+  const { data: SubCategories } = useGetSubCategoriesQuery(categoryId, {
+    skip: !categoryId,
+  });
+
+  const { data: Cities } = useGetCitiesQuery();
+  const CitiesData = Cities?.data || [];
+
+  async function onSubmit(values: z.infer<typeof AddBannerFormSchema>) {
     const data = new FormData();
+
     data.append("name", values.productName);
     data.append("description", values.description);
-    data.append("images[]", values.photo);
-    if (values.photoGroup) {
-      values.photoGroup.forEach((file: any) => {
-        data.append("images[]", file);
-      });
-    }
     data.append("type", "product");
     data.append("condition", values.productState);
     data.append("price", values.price);
     data.append("category_id", values.productCategory);
     data.append("sub_category_id", values.productSubCategory);
     data.append("city_id", values.location);
-    if (values.contactMethods) {
-      values.contactMethods.forEach((method) => {
-        data.append("communication_methods", method);
-      });
-    }
     data.append("notes", values.otherDetails || "");
 
+    // Main Image
+    if (values.photo instanceof File) {
+      data.append("images[]", values.photo);
+    }
+
+    // Gallery Images
+    if (values.photoGroup && values.photoGroup.length > 0) {
+      Array.from(values.photoGroup).forEach((file) => {
+        data.append("images[]", file);
+      });
+    }
+
+    // Contact Methods
+    values.contactMethods?.forEach((method) => {
+      data.append("communication_methods[]", method);
+    });
 
     try {
-      CreateProduct(data).unwrap();
+      await CreateProduct(data).unwrap();
       toast.success(t("Success"));
+      form.reset();
     } catch (error) {
       const err = error as ErrorType;
       toast.error(err.data?.message || t("Error"));
@@ -89,7 +118,8 @@ const AddBannerPage = () => {
       <h1 className="Title_Section pt-10 pb-4">
         <BreadcrumbDemo />
       </h1>
-      <div className="max-w-8xl mx-auto py-6 px-4 border-2 border-primary  rounded-3xl bg-white/80">
+
+      <div className="max-w-8xl mx-auto py-6 px-4 border-2 border-primary rounded-3xl bg-white/80">
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex justify-center gap-4">
@@ -106,7 +136,7 @@ const AddBannerPage = () => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="grid lg:grid-cols-2 gap-4"
           >
-            {/* Images Section */}
+            {/* Images */}
             <CustomCard
               title={t("Images.Title")}
               description={t("Images.Description")}
@@ -123,7 +153,9 @@ const AddBannerPage = () => {
                   control={form.control}
                 />
               </div>
+
               <Separator />
+
               <div>
                 <h3 className="text-sm font-medium text-gray-700 mb-3">
                   {t("Images.OtherImagesTitle")}
@@ -135,7 +167,7 @@ const AddBannerPage = () => {
               </div>
             </CustomCard>
 
-            {/* Product Details Section */}
+            {/* Product Details */}
             <CustomCard
               title={t("Details.Title")}
               description={t("Details.Description")}
@@ -157,67 +189,62 @@ const AddBannerPage = () => {
                   )}
                 />
 
-                <FormField
+                <CustomProductStateField
                   control={form.control}
                   name="productState"
-                  render={({ field }) => (
-                    <CustomProductStateField
-                      control={form.control}
-                      name="productState"
-                      label={t("Details.StateLabel")}
-                      options={StateProductOptions}
-                    />
-                  )}
+                  label={t("Details.StateLabel")}
+                  options={StateProductOptions}
                 />
 
-                <FormField
+                <CustomSelect
                   control={form.control}
                   name="productCategory"
-                  render={({ field }) => (
-                    <CustomSelect
-                      control={form.control}
-                      name="productCategory"
-                      label={t("Details.CategoryLabel")}
-                      placeholder={t("Details.CategoryPlaceholder")}
-                      selectList={Nationality}
-                      className="bg-white border-primary rounded-2xl !h-12"
-                    />
-                  )}
+                  label={t("Details.CategoryLabel")}
+                  placeholder={t("Details.CategoryPlaceholder")}
+                  selectList={CategoriesData.map((item) => ({
+                    value: String(item.id),
+                    label: item.name,
+                  }))}
+                  className="bg-white border-primary rounded-2xl !h-12"
                 />
-                <FormField
+
+                <CustomSelect
                   control={form.control}
                   name="productSubCategory"
-                  render={({ field }) => (
-                    <CustomSelect
-                      control={form.control}
-                      name="productSubCategory"
-                      label={t("Details.SubCategoryLabel")}
-                      placeholder={t("Details.CategoryPlaceholder")}
-                      selectList={Nationality}
-                      className="bg-white border-primary rounded-2xl !h-12"
-                    />
-                  )}
+                  label={t("Details.SubCategoryLabel")}
+                  placeholder={
+                    categoryId
+                      ? t("Details.SubCategoryPlaceholder")
+                      : t("Details.SelectCategoryFirst")
+                  }
+                  selectList={
+                    categoryId
+                      ? SubCategories?.data?.subcategories?.map((item) => ({
+                          value: String(item.id),
+                          label: item.name,
+                        })) || []
+                      : []
+                  }
+                  className="bg-white border-primary rounded-2xl !h-12"
                 />
 
-                <div className="flex items-center gap-2">
-                  <div className="flex-1">
-                    <FormField
-                      control={form.control}
-                      name="price"
-                      render={({ field }) => (
-                        <CustomFormItem
-                          field={field}
-                          label={t("Details.PriceLabel")}
-                          type="number"
-                          placeholder="0.00"
-                          className="bg-white border-primary rounded-2xl h-12"
-                        />
-                      )}
-                    />
-                  </div>
+                <div className="col-span-1 md:col-span-2">
+                  <FormField
+                    control={form.control}
+                    name="price"
+                    render={({ field }) => (
+                      <CustomFormItem
+                        field={field}
+                        label={t("Details.PriceLabel")}
+                        type="number"
+                        placeholder="0.00"
+                        className="bg-white border-primary rounded-2xl h-12"
+                      />
+                    )}
+                  />
                 </div>
 
-                <div className="md:col-span-2">
+                <div className="col-span-1 md:col-span-2">
                   <FormField
                     control={form.control}
                     name="description"
@@ -233,7 +260,7 @@ const AddBannerPage = () => {
                   />
                 </div>
 
-                <div className="md:col-span-2">
+                <div className="col-span-1 md:col-span-2">
                   <FormField
                     control={form.control}
                     name="otherDetails"
@@ -251,7 +278,7 @@ const AddBannerPage = () => {
               </div>
             </CustomCard>
 
-            {/* Location & Contact Section */}
+            {/* Location & Contact */}
             <CustomCard
               title={t("Location&Contact.Title")}
               description={t("Location&Contact.Description")}
@@ -259,32 +286,29 @@ const AddBannerPage = () => {
               bgColor="Gradient_Card_Teal"
             >
               <div className="flex flex-col md:flex-row items-center gap-6">
-                <CustomSelect
-                  control={form.control}
-                  name="location"
-                  label={t("Location&Contact.LocationLabel")}
-                  placeholder={t("Location&Contact.LocationPlaceholder")}
-                  selectList={Nationality}
-                  className="bg-white border-primary rounded-2xl !h-12 w-full w-[200px]"
-                />
-
-                <div className="flex items-center gap-2">
-                  <FormField
+                <div className="w-full md:w-[200px]">
+                  <CustomSelect
                     control={form.control}
-                    name="contactMethods"
-                    render={({ field }) => (
-                      <ToggleContact
-                        control={form.control}
-                        name="contactMethods"
-                        label={t("Location&Contact.ContactLabel")}
-                      />
-                    )}
+                    name="location"
+                    label={t("Location&Contact.LocationLabel")}
+                    placeholder={t("Location&Contact.LocationPlaceholder")}
+                    selectList={CitiesData.map((city) => ({
+                      value: String(city.id),
+                      label: lang === "ar" ? city.name_ar : city.name_en,
+                    }))}
+                    className="bg-white border-primary rounded-2xl !h-12"
                   />
                 </div>
+
+                <ToggleContact
+                  control={form.control}
+                  name="contactMethods"
+                  label={t("Location&Contact.ContactLabel")}
+                />
               </div>
             </CustomCard>
 
-            {/* Submit Section */}
+            {/* Submit */}
             <Card className="Gradient_Card_Teal cursor-auto">
               <CardContent className="pt-6">
                 <div className="text-center space-y-4">

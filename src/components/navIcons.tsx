@@ -15,6 +15,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { getAuthTokenClient } from "@/lib/auth/auth-client";
+import { toast } from "sonner";
 
 interface NavMenuProps {
   setIsOpen?: (value: boolean) => void;
@@ -22,6 +24,7 @@ interface NavMenuProps {
 
 const NavIcons = ({ setIsOpen }: NavMenuProps) => {
   const pathname = usePathname();
+  const token = getAuthTokenClient();
 
   const getPathWithoutLocale = () => {
     const segments = pathname.split("/");
@@ -83,8 +86,15 @@ const NavIcons = ({ setIsOpen }: NavMenuProps) => {
           <Tooltip key={item.name}>
             <TooltipTrigger>
               <Link
-                href={`/${locale}${item.path}`}
-                onClick={() => setIsOpen && setIsOpen(false)}
+                href={token ? `/${locale}${item.path}` : "#"}
+                onClick={(e) => {
+                  if (!token) {
+                    e.preventDefault();
+                    toast.error(t("loginRequired"));
+                  } else {
+                    setIsOpen && setIsOpen(false);
+                  }
+                }}
                 className="text-muted transition-all hover:text-muted/70 hover:scale-105 cursor-pointer"
               >
                 <li>

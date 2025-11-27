@@ -4,6 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { ProductType } from "@/types/Products";
 import { LangType } from "@/types";
+import BtnFavorite from "./btnFavorite";
+import { cn } from "@/lib/utils";
+import SpacialProductBtn from "./SpacialProductBtn";
 
 interface ProductCardProps {
   product: ProductType;
@@ -37,11 +40,7 @@ const CardProduct = ({ product, className, lang }: ProductCardProps) => {
     </span>
   );
 
-  const auctionBadge = is_auction && (
-    <span className="absolute top-2 rtl:right-2 ltr:left-2 bg-amber-600 text-white flex items-center gap-1 text-xs px-3 py-1 rounded-full shadow">
-      <Gavel size={14} /> {lang === "en" ? "Auction" : "مزاد"}
-    </span>
-  );
+  const auctionBadge = is_auction;
 
   const featuredBadge = is_featured && (
     <span className="absolute bottom-2 rtl:left-2 ltr:right-2 bg-yellow-500 text-white flex items-center gap-1 text-xs px-2 py-1 rounded-md shadow">
@@ -67,8 +66,16 @@ const CardProduct = ({ product, className, lang }: ProductCardProps) => {
               className="object-cover group-hover:scale-105 transition duration-300"
             />
 
-            {/* <BtnFavorite /> */}
-
+            <div className={cn("absolute top-2 rtl:right-2 ltr:left-2")}>
+              <BtnFavorite product={product} />
+            </div>
+            <div
+              className={cn(
+                "absolute bottom-2 right-2 flex items-center gap-1 bg-orange-500! text-white px-2 rounded-full"
+              )}
+            >
+              <SpacialProductBtn product={product} />
+            </div>
             {/* Dynamic Badges */}
             {auctionBadge}
             {conditionBadge}
@@ -88,10 +95,16 @@ const CardProduct = ({ product, className, lang }: ProductCardProps) => {
             </div>
 
             {/* Price */}
-            <div className="flex items-center gap-2">
+            <div className="flex justify-between items-center gap-2">
               <span className="text-primary text-lg font-bold">
                 {display_price} {lang === "en" ? "Dinar" : "دينار"}
               </span>
+
+              {auctionBadge && (
+                <span className="absolute bottom-2 rtl:left-2 ltr:right-2 bg-amber-600 text-white flex items-center gap-1 text-xs px-3 py-1 rounded-full shadow">
+                  <Gavel size={14} /> {lang === "en" ? "Auction" : "مزاد"}
+                </span>
+              )}
             </div>
           </div>
         </CardContent>

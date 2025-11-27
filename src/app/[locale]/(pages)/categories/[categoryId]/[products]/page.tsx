@@ -12,7 +12,7 @@ import {
   SortByType,
   TypeProductType,
 } from "@/types/Products";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useParams, useSearchParams } from "next/navigation";
 
 export default function ProductsPage() {
@@ -31,7 +31,7 @@ export default function ProductsPage() {
     search: clean(qs.get("search")),
     condition: clean(qs.get("condition")) as ProductConditionType | undefined,
     sort: clean(qs.get("sort")) as SortByType | undefined,
-    type: clean(qs.get("type")) as TypeProductType | undefined,
+    type: "product" as TypeProductType,
 
     min_price: qs.get("min_price") ? Number(qs.get("min_price")) : undefined,
     max_price: qs.get("max_price") ? Number(qs.get("max_price")) : undefined,
@@ -47,17 +47,31 @@ export default function ProductsPage() {
     per_page: 20,
   };
 
-  const { data, isLoading, isError } = useGetProductsQuery(typedApiParams);
+  const { data, isLoading } = useGetProductsQuery(typedApiParams);
 
   const Products = data?.data?.data || [];
+  const t = useTranslations("breadcrumb");
+  const tNavBar = useTranslations("navBar");
 
   return (
     <div className="Container my-20">
       <h1 className="Title_Section py-10">
-        <BreadcrumbDemo />
+        <BreadcrumbDemo
+          dynamicName={t("products")}
+          customLabels={{
+            [categoryId as string]: tNavBar("subCategories"),
+          }}
+          productsMap={Products.reduce((acc, product) => {
+            acc[product.id] = {
+              ar: product.name,
+              en: product.name,
+            };
+            return acc;
+          }, {} as Record<string, { ar: string; en: string }>)}
+        />
       </h1>
 
-      <ProductsFilters />
+      <ProductsFilters type="category" />
 
       {isLoading && (
         <div className="grid md:grid-cols-4 gap-6">
@@ -66,8 +80,6 @@ export default function ProductsPage() {
           ))}
         </div>
       )}
-
-      {isError && <NoProducts />}
 
       {!isLoading && Products.length === 0 && <NoProducts />}
 

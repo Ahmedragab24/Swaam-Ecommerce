@@ -1,33 +1,19 @@
-import { PackageType } from "@/types/Package";
+import { AdsResponse } from "@/types/Ads";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-interface PackagesResponse {
-  data: PackageType[];
-  message: string;
-  status_code: number;
-}
-
-export const PackagesApi = createApi({
-  reducerPath: "PackagesApi",
+export const AdsApi = createApi({
+  reducerPath: "AdsApi",
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_API_URL,
   }),
 
-  tagTypes: ["packages"],
+  tagTypes: ["ads"],
   endpoints: (builder) => ({
-    getPackages: builder.query<PackagesResponse, void>({
-      query: () => `/packges`,
-      providesTags: ["packages"],
-    }),
-
-    SubscribePackage: builder.mutation<PackagesResponse, number>({
-      query: (packageId) => ({
-        url: `/packges/subscribe?package_id=${packageId}`,
-        method: "POST",
-      }),
-      invalidatesTags: ["packages"],
+    getAds: builder.query<AdsResponse, void>({
+      query: () => `/ads`,
+      providesTags: ["ads"],
     }),
   }),
 });
 
-export const { useGetPackagesQuery, useSubscribePackageMutation } = PackagesApi;
+export const { useGetAdsQuery } = AdsApi;

@@ -8,27 +8,23 @@ import BtnTabsAccount from "@/components/btnTabsAccount";
 import AccountForm from "@/components/accountForm";
 import ChangePasswordForm from "@/components/changePasswordForm";
 import UserPackages from "@/components/userPackages";
-import DeleteAccountForm from "@/components/deleteAccountForm";
 import SupportForm from "@/components/supportForm";
+import { useLocale } from "next-intl";
 
-export type Tabs =
-  | "account"
-  | "changePassword"
-  | "packages"
-  | "support"
-  | "deleteAccount";
+export type Tabs = "account" | "changePassword" | "packages" | "support";
 
 const AccountPage = () => {
   const [activeTab, setActiveTab] = useState<Tabs>("account");
+  const lang = useLocale();
 
   const handleTabChange = (value: string) => {
     setActiveTab(value as Tabs);
   };
 
   return (
-    <div className="min-h-screen Container my-20">
+    <div className="relative min-h-screen Container my-20">
       {/* Breadcrumb */}
-      <h1 className="Title_Section pt-10 pb-4 text-right">
+      <h1 className="Title_Section pt-10 pb-4">
         <BreadcrumbDemo />
       </h1>
 
@@ -37,14 +33,16 @@ const AccountPage = () => {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Sidebar - 1/4 width on desktop */}
         <div className="lg:col-span-1">
-          <Card className="Gradient_Card_Teal p-4 cursor-auto">
-            <nav className="space-y-2">
-              <BtnTabsAccount
-                activeTab={activeTab}
-                setActiveTab={setActiveTab}
-              />
-            </nav>
-          </Card>
+          <div className="sticky top-24 z-30">
+            <Card className="Gradient_Card_Teal p-4 cursor-auto">
+              <nav className="space-y-2">
+                <BtnTabsAccount
+                  activeTab={activeTab}
+                  setActiveTab={setActiveTab}
+                />
+              </nav>
+            </Card>
+          </div>
         </div>
 
         {/* Main Content Area - 3/4 width on desktop */}
@@ -54,6 +52,7 @@ const AccountPage = () => {
               value={activeTab}
               onValueChange={handleTabChange}
               className="w-full"
+              dir={lang === "ar" ? "rtl" : "ltr"}
             >
               <TabsContent value="account" className="mt-6">
                 <AccountForm />
@@ -69,10 +68,6 @@ const AccountPage = () => {
 
               <TabsContent value="support" className="mt-6">
                 <SupportForm />
-              </TabsContent>
-
-              <TabsContent value="deleteAccount" className="mt-6">
-                <DeleteAccountForm />
               </TabsContent>
             </Tabs>
           </Card>

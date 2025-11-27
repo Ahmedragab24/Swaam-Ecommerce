@@ -31,6 +31,8 @@ const BtnRegister = () => {
           ? "!max-w-[400px]"
           : variant === "register"
           ? "!max-w-[520px]"
+          : variant === "otp"
+          ? "!max-w-[400px] p-8"
           : "!max-w-[320px] p-8"
       }
       BtnTitle={t("Register.BtnTitle")}
